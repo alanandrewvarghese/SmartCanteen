@@ -7,15 +7,15 @@ from .models import *
 class CreateUserForm(UserCreationForm):
     username = forms.CharField(
         label = 'Username',
-        widget = forms.TextInput(attrs={'class': 'form-control'}),
+        widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your username'}),
     )
     password1 = forms.CharField(
         label = 'Password',
-        widget = forms.PasswordInput(attrs={'class': 'form-control'})
+        widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'})
     )
     password2 = forms.CharField(
         label = 'Confirm Password',
-        widget = forms.PasswordInput(attrs={'class': 'form-control'})
+        widget = forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Re-enter your password'})
     )
 
     class Meta:
@@ -38,7 +38,7 @@ class CreateCustomerForm(ModelForm):
 
     has_khatta = forms.BooleanField(
         label ='KhattaBook Required',
-        widget = forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        widget = forms.CheckboxInput(attrs={'class': 'form-check-input has-khatta'}),
     )
 
     class Meta:

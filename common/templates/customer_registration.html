@@ -10,6 +10,11 @@
       background-position: center; /* Centers the image */
       background-repeat: no-repeat; /* Prevents the image from repeating */
     }
+
+    .has-khatta{
+      border: 1px gray solid;
+    }
+
 </style>
 <main>
 <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -19,10 +24,13 @@
       {% csrf_token %}
       {{ userform.as_p }}
       {{ customerform.as_p }}
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="submit" class="btn btn-primary w-100 mt-3 d-flex justify-content-center align-items-center">
+        Register Now
+      </button>
     </form>
+    <hr>
     <p class="text-center mt-3">
-      Already have an account? <a href="{% url 'app_login' %}">Login here</a>
+      Already have an account? <a href="{% url 'app_login' %}" class="text-primary">Log in here</a>.
     </p>
   </div>
 </div>
