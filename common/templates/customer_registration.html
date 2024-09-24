@@ -1,9 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
 {% block title %}Register{% endblock title %}
 
 {% block content %}
-
-
-
+<style>
+    main {
+      background-image: url('https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+      background-size: cover; /* Ensures the image covers the entire viewport */
+      background-position: center; /* Centers the image */
+      background-repeat: no-repeat; /* Prevents the image from repeating */
+    }
+</style>
+<main>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-5 shadow-lg" style="width: 100%; max-width: 500px">
+    <h2 class="text-center mb-4">Create an Account</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ userform.as_p }}
+      {{ customerform.as_p }}
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <p class="text-center mt-3">
+      Already have an account? <a href="{% url 'app_login' %}">Login here</a>
+    </p>
+  </div>
+</div>
+</main>
 {% endblock content %}
