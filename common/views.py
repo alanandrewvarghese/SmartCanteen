@@ -29,18 +29,33 @@ def customer_registration(request):
         }
     return render(request, 'customer_registration.html', context)
 
+def handle_redirect(user):
+    if hasattr(user, 'customer'):
+        return redirect('customer_dashboard')
+    elif hasattr(user, 'staff'):
+        return redirect('staff_dashboard')
+    return redirect('home')
+
 def app_login(request):
+    if request.user.is_authenticated:
+        user = request.user
+        return handle_redirect(user)
+    
     loginform=AppLoginForm()
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            # messages.success(request, "You are now logged in.")
-            return redirect('home')  # Redirect to dashboard or homepage
+        loginform = AppLoginForm(request.POST)
+        if loginform.is_valid():
+            username = loginform.cleaned_data['username']
+            password = loginform.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return handle_redirect(user)
+            else:
+                messages.error(request, "Invalid username or password.")
         else:
-            messages.error(request, "Invalid username or password.")
+            messages.error(request, "Form Errors!")
+
     context={
         'loginform': loginform
     }
