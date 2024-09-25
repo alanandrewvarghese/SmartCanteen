@@ -9,8 +9,10 @@
 
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <title>{% block title %}Smart Canteen{% endblock title %}</title>
+    <style>{% block style %}{% endblock style %}</style>
   </head>
   <body>
+    {% block messages %}{% endblock messages %}
     {% block content %}
     
     {% endblock content %}

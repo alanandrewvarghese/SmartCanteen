@@ -2,8 +2,49 @@
 
 {% block title %}Login{% endblock title %}
 
+{% block style %}
+main {
+    background-image: url('https://wallpapers.com/images/hd/festive-table-filled-with-dish-for-lunch-darndmdoqegc07we.jpg');
+    background-size: cover; /* Ensures the image covers the entire viewport */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+  }
+{%endblock style%}
+
+{% block messages %}
+
+{% if messages %}
+  <div>
+    {% for message in messages %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+
+{% endblock messages %}
+
 {% block content %}
-
-
-
+<main>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Login</h2>
+        <form method="post" action="{% url 'app_login' %}">
+            {% csrf_token %}
+            {{ loginform.as_p }}
+            <br>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <p class="text-center mt-3">
+            <a href="#">Forgot your password?</a>
+        </p>
+        <p class="text-center mt-2">
+            Don't have an account? <a href="{% url 'customer_registration' %}">Sign up</a>
+        </p>
+    </div>
+</div>
+</main>
 {% endblock content %}

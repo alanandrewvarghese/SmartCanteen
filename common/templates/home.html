@@ -2,8 +2,200 @@
 
 {% block title %}Home{% endblock title %}
 
+{% block style %}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Hero Section */
+.hero-section {
+    background: url('https://www.anylogic.com/upload/iblock/28e/g3u82f81ijlvkb1780osfx1un2wq489m.jpg') no-repeat center center;
+    background-size: cover;
+    color: #ffffff;
+    height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(52, 58, 64, 0.1);
+}
+.hero-content {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+.hero-content p {
+    font-size: 1.25rem;
+    margin: 20px 0;
+}
+/* Login Button */
+.login-btn {
+    background-color: #17a2b8;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.login-btn:hover {
+    background-color: #138496;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+/* Specials and Combos Sections */
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.item-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+.item-image {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+.item-details {
+    padding: 1rem;
+    text-align: center;
+}
+.item-name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0.5rem 0;
+    color: #343a40;
+}
+.item-price {
+    font-size: 1.1rem;
+    color: #28a745;
+    font-weight: 500;
+}
+
+{% endblock style %}
+
 {% block content %}
 
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Welcome to Smart Canteen System</h1>
+        <p>Your one-stop solution for efficient canteen management.</p>
+        <a href="{% url 'customer_registration' %}" class="btn btn-primary btn-lg">Register Now</a>
+    </div>
+</section>
 
+<!-- Specials Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="section-title">Today's Specials</h2>
+        <div class="row g-4">
+            <!-- Special Item Card (Repeat as needed) -->
+            <div class="col-lg-4 col-md-6">
+                <div class="item-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Special Item" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">Grilled Chicken Sandwich</h3>
+                        <p class="item-price">$8.99</p>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Special Item Card -->
+
+            <div class="col-lg-4 col-md-6">
+                <div class="item-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Special Item" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">Veggie Delight Wrap</h3>
+                        <p class="item-price">$7.49</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="item-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Special Item" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">Spicy Beef Burger</h3>
+                        <p class="item-price">$9.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Combos Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title">Combo Deals</h2>
+        <div class="row g-4">
+            <!-- Combo Item Card (Repeat as needed) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="item-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">Burger Combo</h3>
+                        <p class="item-price">$12.99</p>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Combo Item Card -->
+
+            <div class="col-lg-3 col-md-6">
+                <div class="item-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">Pizza Combo</h3>
+                        <p class="item-price">$15.49</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="item-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">Pasta Combo</h3>
+                        <p class="item-price">$11.99</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="item-card">
+                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-name">Salad Combo</h3>
+                        <p class="item-price">$9.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
