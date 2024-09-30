@@ -104,6 +104,13 @@ body {
         <i class="bi bi-house-door me-1"></i>Home
     </a>
 </li>
+{% if request.user.is_authenticated %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'app_logout' %}">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Logout
+    </a>
+</li>
+{% else %}
 <li class="nav-item">
     <a class="nav-link" href="{% url 'app_login' %}">
         <i class="bi bi-box-arrow-in-right me-1"></i>Login
@@ -114,6 +121,7 @@ body {
         <i class="bi bi-person-plus me-1"></i>Register
     </a>
 </li>
+{% endif %}
 
 {% endblock navlinks %}
 
