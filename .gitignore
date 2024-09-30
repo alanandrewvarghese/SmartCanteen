@@ -1,7 +1,11 @@
 /templates/temp/
+# Ignore Python bytecode and cache files
 __pycache__/
+*.py[cod]
 
+# Ignore all migration files except __init__.py
 */migrations/*
 !*/migrations/__init__.py
 
+# Ignore local settings for sensitive configurations
 local_settings.py
