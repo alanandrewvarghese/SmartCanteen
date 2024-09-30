@@ -10,3 +10,7 @@ def customer_dashboard(request):
 @customer_required
 def view_cart(request):
     return render(request, 'view_cart.html')
+
+@customer_required
+def customer_notifications(request):
+    return render(request, 'customer_notifications.html')
