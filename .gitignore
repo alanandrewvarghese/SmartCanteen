@@ -1,0 +1,7 @@
+/templates/temp/
+__pycache__/
+
+*/migrations/*
+!*/migrations/__init__.py
+
+local_settings.py

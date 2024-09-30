@@ -16,18 +16,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5ag^#^0oq#s4#m+xhjivahzwj%oi=#tywub_x#6c=euy_$a#0v'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,8 +41,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'canteen.urls'
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,21 +58,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'canteen.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'canteen',
-        'HOST': 'localhost',
-        'PASSWORD': 'root',
-        'USER': 'root',
-        'PORT': '3306',
-    }
-}
 
 
 # Password validation
@@ -135,3 +106,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Only used in production
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Load environment-specific settings from local_settings.py if it exists
+try:
+    from .local_settings import *
+except ImportError:
+    pass
