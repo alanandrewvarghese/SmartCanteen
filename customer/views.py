@@ -22,3 +22,7 @@ def view_orders(request):
 @customer_required
 def khattabook(request):
     return render(request, 'khattabook.html')
+
+@customer_required
+def raise_issue(request):
+    return render(request, 'raise_issue.html')
