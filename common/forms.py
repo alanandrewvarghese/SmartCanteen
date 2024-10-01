@@ -39,6 +39,7 @@ class CreateCustomerForm(ModelForm):
     has_khatta = forms.BooleanField(
         label ='KhattaBook Required',
         widget = forms.CheckboxInput(attrs={'class': 'form-check-input has-khatta'}),
+        required=False
     )
 
     class Meta:
