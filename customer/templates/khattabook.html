@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}KhattaBook{% endblock title %}
+
+{% block style %}{%endblock style%}
+
+{% block navlinks %}
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'customer_dashboard' %}">
+        <i class="bi bi-house-door me-1"></i>Home
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'view_cart' %}">
+        <i class="bi bi-cart me-1"></i>Cart
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'customer_notifications' %}">
+        <i class="bi bi-bell me-1"></i>Notifications
+    </a>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle me-1"></i>Account
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" aria-current="page" href="{% url 'view_orders' %}"><i class="bi bi-bag me-2"></i>Orders</a></li>
+        <li><a class="dropdown-item" href="#"><i class="bi bi-journal me-2"></i>KhattaBook</a></li>
+        <li><a class="dropdown-item" href="#"><i class="bi bi-exclamation-triangle me-2"></i>Raise Issue</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'app_logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+    </ul>
+</li>
+
+{% endblock navlinks %}
+
+{% block messages %}{% endblock messages %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Segment 1: Payment Section -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Payment
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Total Due: ₹500</h5>
+            <p class="card-text">Please click the button below to make the payment for your due balance.</p>
+            <a href="#" class="btn btn-success">Pay Now</a>
+        </div>
+    </div>
+
+    <!-- Segment 2: Order History Section -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Order History
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Order Date</th>
+                            <th>Amount Paid (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#">1234</a></td>
+                            <td>12-Sep-2024</td>
+                            <td>150</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">1233</a></td>
+                            <td>10-Sep-2024</td>
+                            <td>200</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">1232</a></td>
+                            <td>08-Sep-2024</td>
+                            <td>180</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">1231</a></td>
+                            <td>06-Sep-2024</td>
+                            <td>120</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}{% endblock script %}

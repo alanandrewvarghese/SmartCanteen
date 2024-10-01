@@ -18,3 +18,7 @@ def customer_notifications(request):
 @customer_required
 def view_orders(request):
     return render(request, 'view_orders.html')
+
+@customer_required
+def khattabook(request):
+    return render(request, 'khattabook.html')
