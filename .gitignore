@@ -9,3 +9,5 @@ __pycache__/
 
 # Ignore local settings for sensitive configurations
 local_settings.py
+
+db_init.py

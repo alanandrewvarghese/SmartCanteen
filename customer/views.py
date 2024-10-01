@@ -14,3 +14,7 @@ def view_cart(request):
 @customer_required
 def customer_notifications(request):
     return render(request, 'customer_notifications.html')
+
+@customer_required
+def view_orders(request):
+    return render(request, 'view_orders.html')
