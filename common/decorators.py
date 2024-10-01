@@ -7,7 +7,7 @@ def staff_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         # Ensure the user is authenticated
         if not request.user.is_authenticated:
-            return redirect('login')  # Redirect to login if user is not authenticated
+            return redirect('app_login')  # Redirect to login if user is not authenticated
 
         # Check if the authenticated user is a staff member
         if hasattr(request.user, 'staff'):
@@ -22,7 +22,7 @@ def customer_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         # Ensure the user is authenticated
         if not request.user.is_authenticated:
-            return redirect('login')  # Redirect to login if user is not authenticated
+            return redirect('app_login')  # Redirect to login if user is not authenticated
 
         # Check if the authenticated user is a staff member
         if hasattr(request.user, 'customer'):
