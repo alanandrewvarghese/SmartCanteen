@@ -6,3 +6,7 @@ from common.decorators import *
 @staff_required
 def staff_dashboard(request):
     return render(request, 'staff_dashboard.html')
+
+@staff_required
+def manage_item(request):
+    return render(request, 'manage_item.html')
