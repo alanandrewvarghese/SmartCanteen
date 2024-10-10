@@ -79,23 +79,11 @@ body {
         <div class="col-md-6">
             <div class="card p-4">
                 <h2 class="text-center mb-4">Add New Staff</h2>
-                <form>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email ID</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control" id="address" rows="3" placeholder="Enter address" required></textarea>
-                    </div>
+                <form method="post">
+                    {% csrf_token %}
+                    {{staffform.as_p}}
+                    {{userform.as_p}}
+            
                     <div class="submit-section d-grid">
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>

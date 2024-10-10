@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from common.decorators import *
-from staff.forms import ItemCreationForm
+from staff.forms import ItemCreationForm, StaffCreationForm
+from common.forms import CreateUserForm
 
 # Create your views here.
 
@@ -35,7 +36,23 @@ def add_item(request):
 
 @staff_required
 def add_staff(request):
-    return render(request, 'add_staff.html')
+    userform=CreateUserForm()
+    staffform=StaffCreationForm()
+
+    if request.method=='POST':
+        userform=CreateUserForm(request.POST)
+        staffform=StaffCreationForm(request.POST)
+        if userform.is_valid() and staffform.is_valid():
+            user=userform.save()
+            staff=staffform.save(commit=False)
+            staff.user=user 
+            staff.save()
+            return redirect('app_login')
+    context={
+        'userform':userform,
+        'staffform':staffform,
+    }
+    return render(request, 'add_staff.html', context)
 
 @staff_required
 def update_stock(request):
