@@ -8,6 +8,7 @@ urlpatterns = [
     path('add_item/',views.add_item,name='add_item'),
     path('add_staff/',views.add_staff,name='add_staff'),
     path('update_stock/',views.update_stock,name='update_stock'),
+    path('staff_notification/',views.update_stock,name='update_stock'),
 
 
     
