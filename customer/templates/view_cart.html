@@ -53,18 +53,19 @@
     <h2>Cart</h2>
     <div class="row mb-3">
         <div class="col-md-8">
+            {% for item in cart_items %}
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="https://via.placeholder.com/150" class="img-fluid rounded-start" alt="Item Image">
+                        <img src="{{item.item.item_image.url}}" class="img-fluid rounded-start" alt="Item Image">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Item Name</h5>
-                            <p class="card-text">Price: ₹<span class="item-price" data-price="200">200</span></p>
+                            <h5 class="card-title">{{item.item.item_name}}</h5>
+                            <p class="card-text">Price: ₹<span class="item-price">{{item.item.price}}</span></p>
                             <div class="d-flex align-items-center">
                                 <button class="btn btn-outline-primary btn-sm me-2 decrement">-</button>
-                                <span class="cart-item-quantity">1</span>
+                                <span class="cart-item-quantity">{{item.quantity}}</span>
                                 <button class="btn btn-outline-primary btn-sm ms-2 increment">+</button>
                                 <button class="btn btn-danger btn-sm ms-auto">Remove</button>
                             </div>
@@ -72,34 +73,15 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Repeat for other cart items -->
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="https://via.placeholder.com/150" class="img-fluid rounded-start" alt="Item Image">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Another Item</h5>
-                            <p class="card-text">Price: ₹<span class="item-price" data-price="150">150</span></p>
-                            <div class="d-flex align-items-center">
-                                <button class="btn btn-outline-primary btn-sm me-2 decrement">-</button>
-                                <span class="cart-item-quantity">2</span>
-                                <button class="btn btn-outline-primary btn-sm ms-2 increment">+</button>
-                                <button class="btn btn-danger btn-sm ms-auto">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+
 
         <!-- Segment 2 - Order Section -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h4>Total Amount: ₹<span id="total-amount">500</span></h4>
+                    <h4>Total Amount: ₹<span id="total-amount">{{total}}</span></h4>
                     <a href="#" class="btn btn-success w-100">Place Order</a>
                 </div>
             </div>
@@ -111,46 +93,4 @@
 {% endblock content %}
 
 {% block script %}
-
-document.addEventListener('DOMContentLoaded', function () {
-    const decrementButtons = document.querySelectorAll('.decrement');
-    const incrementButtons = document.querySelectorAll('.increment');
-    const totalAmountElement = document.getElementById('total-amount');
-
-    function updateTotal() {
-        let totalAmount = 0;
-        const items = document.querySelectorAll('.card-body');
-        items.forEach(item => {
-            const priceElement = item.querySelector('.item-price');
-            const quantityElement = item.querySelector('.cart-item-quantity');
-            const price = parseInt(priceElement.getAttribute('data-price'));
-            const quantity = parseInt(quantityElement.textContent);
-            totalAmount += price * quantity;
-        });
-        totalAmountElement.textContent = totalAmount;
-    }
-
-    decrementButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const quantityElement = this.nextElementSibling;
-            let currentQuantity = parseInt(quantityElement.textContent);
-            if (currentQuantity > 1) {
-                quantityElement.textContent = currentQuantity - 1;
-                updateTotal();
-            }
-        });
-    });
-
-    incrementButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const quantityElement = this.previousElementSibling;
-            let currentQuantity = parseInt(quantityElement.textContent);
-            quantityElement.textContent = currentQuantity + 1;
-            updateTotal();
-        });
-    });
-
-    updateTotal(); // Initialize the total amount on page load
-});
-
 {% endblock script %}
