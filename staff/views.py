@@ -14,3 +14,7 @@ def manage_item(request):
 @staff_required
 def manage_staff(request):
     return render(request, 'manage_staff.html')
+
+@staff_required
+def add_item(request):
+    return render(request, 'add_item.html')
