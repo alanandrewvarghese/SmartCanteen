@@ -10,3 +10,7 @@ def staff_dashboard(request):
 @staff_required
 def manage_item(request):
     return render(request, 'manage_item.html')
+
+@staff_required
+def manage_staff(request):
+    return render(request, 'manage_staff.html')

@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Staff{% endblock title %}
+
+{% block style %}
+
+body {
+    background-color: #f0f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.card {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.staff-header {
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 5px 5px 0 0;
+    padding: 15px;
+}
+.staff-body {
+    padding: 20px;
+}
+.btn-remove {
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+.btn-remove:hover {
+    background-color: #ff4757;
+}
+.btn-add-staff {
+    background-color: #20bf6b;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.btn-add-staff:hover {
+    background-color: #26de81;
+    transform: scale(1.05);
+}
+.page-title {
+    color: #2c3e50;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.staff-info {
+    color: #34495e;
+}
+.staff-id {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+}
+
+{%endblock style%}
+
+{% block navlinks %}
+
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'staff_dashboard' %}">
+        <i class="bi bi-bar-chart me-1"></i>Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link "  href="{% url 'manage_item' %}">
+        <i class="bi bi-boxes me-1"></i>Manage Items
+    </a>
+</li>   
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page"  href="{% url 'manage_staff' %}">
+        <i class="bi bi-people me-1"></i>Manage Staff
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'customer_notifications' %}">
+        <i class="bi bi-box-seam me-1"></i>Update Stock
+
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'customer_notifications' %}">
+        <i class="bi bi-bell me-1"></i>Notifications
+    </a>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots me-1"></i>More
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="{% url 'view_orders' %}"><i class="bi bi-person-lines-fill me-2"></i>Manage Customer</a></li>
+        <li><a class="dropdown-item" href="{% url 'khattabook' %}"><i class="bi bi-journal me-2"></i>KhattaBook</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-clipboard-check me-2"></i>Daily Accounts</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-exclamation-triangle me-2"></i>Manage Issue</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'app_logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+    </ul>
+</li>
+
+
+
+{% endblock navlinks %}
+
+{% block messages %}{% endblock messages %}
+
+{% block content %}
+
+<div class="container py-5">
+    <h1 class="text-center page-title mb-5">Smart Canteen Staff Management</h1>
+    
+    <div class="d-flex justify-content-end mb-4">
+        <button class="btn btn-add-staff">
+            <i class="bi bi-plus-circle me-2"></i>Add New Staff
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="staff-header">
+                    <h5 class="mb-0">John Doe</h5>
+                    <small class="staff-id">ID: ST001</small>
+                </div>
+                <div class="staff-body">
+                    <p class="staff-info"><i class="bi bi-telephone me-2"></i>+1 (123) 456-7890</p>
+                    <p class="staff-info"><i class="bi bi-envelope me-2"></i>john.doe@example.com</p>
+                    <button class="btn btn-remove mt-2">
+                        <i class="bi bi-trash me-2"></i>Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="staff-header">
+                    <h5 class="mb-0">Jane Smith</h5>
+                    <small class="staff-id">ID: ST002</small>
+                </div>
+                <div class="staff-body">
+                    <p class="staff-info"><i class="bi bi-telephone me-2"></i>+1 (234) 567-8901</p>
+                    <p class="staff-info"><i class="bi bi-envelope me-2"></i>jane.smith@example.com</p>
+                    <button class="btn btn-remove mt-2">
+                        <i class="bi bi-trash me-2"></i>Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="staff-header">
+                    <h5 class="mb-0">Mike Johnson</h5>
+                    <small class="staff-id">ID: ST003</small>
+                </div>
+                <div class="staff-body">
+                    <p class="staff-info"><i class="bi bi-telephone me-2"></i>+1 (345) 678-9012</p>
+                    <p class="staff-info"><i class="bi bi-envelope me-2"></i>mike.johnson@example.com</p>
+                    <button class="btn btn-remove mt-2">
+                        <i class="bi bi-trash me-2"></i>Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}{% endblock script %}
