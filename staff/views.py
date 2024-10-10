@@ -22,3 +22,7 @@ def add_item(request):
 @staff_required
 def add_staff(request):
     return render(request, 'add_staff.html')
+
+@staff_required
+def update_stock(request):
+    return render(request, 'update_stock.html')
