@@ -10,7 +10,7 @@ body {
 }
 .card {
     border: none;
-    border-radius: 15px;
+    border-radius: 5px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     transition: transform 0.2s;
@@ -29,7 +29,9 @@ body {
     font-weight: bold;
 }
 .card-text {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    margin-bottom: 3px;
+
 }
 
 .btn-add:hover {
@@ -89,47 +91,45 @@ body {
 
 <div class="container mt-5">
     <div class="text-end mb-3">
-        <a href="{% url "add_item" %}" class="btn btn-success">Add Item</a>
+        <a href="{% url "add_item" %}" class="btn btn-success"><i class="bi bi-plus-lg"></i> Add Item</a>
     </div>
     <div class="row">
-        <!-- Example Item Slot -->
+
+        {% for item in items %}
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card">
-                <img src="path/to/your/image1.jpg" alt="Veg Burger" class="item-image">
+                <img src="{{item.item_image.url}}" alt="Veg Burger" class="item-image">
                 <div class="card-body">
-                    <h5 class="card-title">Veg Burger</h5>
-                    <p class="card-text"><strong>Item ID:</strong> 001</p>
-                    <p class="card-text"><strong>Price:</strong> $3.50</p>
-                    <p class="card-text"><strong>Food Type:</strong> Vegetarian</p>
-                </div>
-            </div>
-        </div>
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text"><strong>Item ID:</strong> {{item.item_id}}</p>
+                    <p class="card-text"><strong>Price:</strong> &#8377; {{item.price}}</p>
+                    <p class="card-text"><strong>Food Type:</strong> {{item.get_food_type_display}}</p>
+                    <p class="card-text"><strong>Category:</strong> {{item.get_category_display}}</p>
+                    <p class="card-text"><strong>In Stock:</strong> {{item.quantity}}</p>
+                    <div class="d-flex justify-content-end mt-3">
+                        
+                        <form action="" method="POST" style="display:inline-block;">
+                            <button type="submit" class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                        </form>
 
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card">
-                <img src="path/to/your/image2.jpg" alt="Chicken Sandwich" class="item-image">
-                <div class="card-body">
-                    <h5 class="card-title">Chicken Sandwich</h5>
-                    <p class="card-text"><strong>Item ID:</strong> 002</p>
-                    <p class="card-text"><strong>Price:</strong> $4.00</p>
-                    <p class="card-text"><strong>Food Type:</strong> Non-Vegetarian</p>
-                </div>
-            </div>
-        </div>
+                        <span>&nbsp;</span>
 
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="card">
-                <img src="path/to/your/image3.jpg" alt="Fruit Salad" class="item-image">
-                <div class="card-body">
-                    <h5 class="card-title">Fruit Salad</h5>
-                    <p class="card-text"><strong>Item ID:</strong> 003</p>
-                    <p class="card-text"><strong>Price:</strong> $2.50</p>
-                    <p class="card-text"><strong>Food Type:</strong> Vegan</p>
+                        <form action="{% url 'delete_item' item.item_id %}" method="POST" style="display:inline-block;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
                 </div>
+                
             </div>
+            
         </div>
+        {% endfor %}
 
-        <!-- Add more items in the same structure -->
     </div>
 </div>
 

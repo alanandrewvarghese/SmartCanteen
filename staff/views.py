@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from common.decorators import *
 from staff.forms import ItemCreationForm, StaffCreationForm
 from common.forms import CreateUserForm
+from common.models import Item
 
 # Create your views here.
 
@@ -11,7 +12,11 @@ def staff_dashboard(request):
 
 @staff_required
 def manage_item(request):
-    return render(request, 'manage_item.html')
+    items = Item.objects.all()
+    context = {
+        "items":items
+    }
+    return render(request, 'manage_item.html', context)
 
 @staff_required
 def manage_staff(request):
@@ -33,6 +38,36 @@ def add_item(request):
         "itemcreationform": itemcreationform
     }
     return render(request, 'add_item.html',context)
+
+# @staff_required
+# def update_item(request,item_id):
+#     item = get_object_or_404(Item, pk=item_id)
+
+#     if request.method == 'POST':
+#         # Pass the instance of the item to update
+#         itemcreationform = ItemCreationForm(request.POST, request.FILES, instance=item)
+#         if itemcreationform.is_valid():
+#             itemcreationform.save()  # Save the updated item
+#             return redirect('manage_item')  # Redirect to the manage items page
+#         else:
+#             print("Invalid form")
+#     else:
+#         # Pre-fill the form with the existing item's data
+#         itemcreationform = ItemCreationForm(instance=item)
+
+#     context = {
+#         "itemcreationform": itemcreationform,
+#         "item": item
+#     }
+#     return render(request, 'update_item.html', context)
+
+@staff_required
+def delete_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('manage_item')
+
 
 @staff_required
 def add_staff(request):
