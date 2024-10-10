@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Staff{% endblock title %}
+
+{% block style %}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+.btn-primary {
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+.submit-section {
+    margin-top: 20px;
+}
+
+{%endblock style %}
+
+{% block navlinks%}
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'staff_dashboard' %}">
+        <i class="bi bi-bar-chart me-1"></i>Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link "  href="{% url 'manage_item' %}">
+        <i class="bi bi-boxes me-1"></i>Manage Items
+    </a>
+</li>   
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page"  href="{% url 'manage_staff' %}">
+        <i class="bi bi-people me-1"></i>Manage Staff
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'customer_notifications' %}">
+        <i class="bi bi-box-seam me-1"></i>Update Stock
+
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'customer_notifications' %}">
+        <i class="bi bi-bell me-1"></i>Notifications
+    </a>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots me-1"></i>More
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="{% url 'view_orders' %}"><i class="bi bi-person-lines-fill me-2"></i>Manage Customer</a></li>
+        <li><a class="dropdown-item" href="{% url 'khattabook' %}"><i class="bi bi-journal me-2"></i>KhattaBook</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-clipboard-check me-2"></i>Daily Accounts</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-exclamation-triangle me-2"></i>Manage Issue</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'app_logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+    </ul>
+</li>
+
+{% endblock navlinks %}
+
+{% block messages %}{% endblock messages %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h2 class="text-center mb-4">Add New Staff</h2>
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email ID</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <textarea class="form-control" id="address" rows="3" placeholder="Enter address" required></textarea>
+                    </div>
+                    <div class="submit-section d-grid">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+
+{% endblock script %}
