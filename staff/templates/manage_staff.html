@@ -124,10 +124,8 @@ body {
 <div class="container py-5">
     <h1 class="text-center page-title mb-5">Smart Canteen Staff Management</h1>
     
-    <div class="d-flex justify-content-end mb-4">
-        <button class="btn btn-add-staff">
-            <i class="bi bi-plus-circle me-2"></i>Add New Staff
-        </button>
+    <div class="d-flex justify-content-end mb-4"> 
+            <a href="{% url "add_staff" %}" class="btn btn-success">Add new staff</a>
     </div>
 
     <div class="row">
