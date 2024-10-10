@@ -11,3 +11,5 @@ __pycache__/
 local_settings.py
 
 db_init.py
+
+/media/
