@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from common.decorators import *
+from common.models import Item
 
 # Create your views here.
 
 @customer_required
 def customer_dashboard(request):
-    return render(request, 'customer_dashboard.html')
+    items = Item.objects.all()
+    context = {
+        "items":items
+    }
+    return render(request, 'customer_dashboard.html', context)
 
 @customer_required
 def view_cart(request):

@@ -126,13 +126,23 @@ body {
 {% endblock navlinks %}
 
 {% block content %}
-
 <section class="hero-section">
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <h1>Welcome to Smart Canteen System</h1>
         <p>Your one-stop solution for efficient canteen management.</p>
-        <a href="{% url 'customer_registration' %}" class="btn btn-primary btn-lg">
+        <a href="{% if user.is_authenticated %}
+                    {% if user_type == 'staff' %}
+                        {% url 'staff_dashboard' %}
+                    {% elif user_type == 'customer' %}
+                        {% url 'customer_dashboard' %}
+                    {% else %}
+                        {% url 'customer_registration' %}
+                    {% endif %}
+                {% else %}
+                    {% url 'customer_registration' %}
+                {% endif %}"
+           class="btn btn-primary btn-lg">
             {% if request.user.is_authenticated %}
                 Go to Dashboard
             {% else %}

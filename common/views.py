@@ -6,7 +6,16 @@ from .forms import CreateCustomerForm,CreateUserForm,AppLoginForm
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    user_type = None
+    if request.user.is_authenticated:
+        if hasattr(request.user, 'staff'):
+            user_type = 'staff'
+        elif hasattr(request.user, 'customer'):
+            user_type = 'customer'
+    context = {
+        "user_type":user_type
+    }
+    return render(request, 'home.html', context)
 
 def customer_registration(request):
     if request.user.is_authenticated:
