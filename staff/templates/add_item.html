@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}Add items {% endblock title %}
+
+{% block style %}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    {% comment %} height: 100vh; {% endcomment %}
+    {% comment %} overflow: hidden; {% endcomment %}
+}
+.overlay {
+    background-color: rgba(255, 255, 255, 0.95);
+    min-height: 100vh;
+    padding: 50px 0;
+}
+.form-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+.form-title {
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-weight: 700;
+    text-align: center;
+}
+.btn-submit {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 30px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.btn-submit:hover {
+    background-color: #0588df;
+    transform: scale(1.005);
+}
+@media (max-width: 576px) {
+    .form-container {
+        padding: 20px;
+    }
+    .btn-submit {
+        width: 100%;
+    }
+}
+
+{%endblock style%}
+
+{% block navlinks %}{% endblock navlinks %}
+
+{% block messages %}{% endblock messages %}
+
+{% block content %}
+
+<div class="overlay d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="form-container">
+                    <h2 class="form-title">Add New Item</h2>
+                    <form id="addItemForm">
+                        <div class="mb-3">
+                            <label for="itemName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" id="itemName" placeholder="Enter Item Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="foodType" class="form-label">Food Type</label>
+                            <select class="form-select" id="foodType" required>
+                                <option selected disabled>Select Food Type</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="non-vegetarian">Non-Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="dessert">Dessert</option>
+                                <option value="beverage">Beverage</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price ($)</label>
+                            <input type="number" class="form-control" id="price" placeholder="Enter Price" min="0" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" required>
+                                <option selected disabled>Select Category</option>
+                                <option value="main-course">Main Course</option>
+                                <option value="appetizer">Appetizer</option>
+                                <option value="beverage">Beverage</option>
+                                <option value="dessert">Dessert</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="itemImage" class="form-label">Item Image</label>
+                            <input class="form-control" type="file" id="itemImage" accept="image/*" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-submit btn-primary">Add Item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+
+    document.getElementById('addItemForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent actual form submission for demonstration
+        // Retrieve form data
+        const itemName = document.getElementById('itemName').value;
+        const foodType = document.getElementById('foodType').value;
+        const price = document.getElementById('price').value;
+        const category = document.getElementById('category').value;
+        const itemImage = document.getElementById('itemImage').files[0];
+
+        // Simple validation (additional validation can be added)
+        if (!itemName || !foodType || !price || !category || !itemImage) {
+            alert('Please fill in all fields and select an image.');
+            return;
+        }
+
+        // Placeholder for form submission logic (e.g., send data to the server)
+        alert('Item "' + itemName + '" added successfully!');
+        
+        // Reset the form after submission
+        this.reset();
+    });
+
+{% endblock script %}
