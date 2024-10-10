@@ -57,12 +57,6 @@ class ItemCreationForm(ModelForm):
         widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
     )
 
-    quantity = forms.IntegerField(
-        label='Quantity',
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Quantity'}),
-        validators=[MinValueValidator(0)]
-    )
-
     class Meta:
         model = Item
-        fields = ['item_name', 'price', 'category', 'food_type', 'item_image', 'quantity']
+        fields = ['item_name', 'price', 'category', 'food_type', 'item_image']

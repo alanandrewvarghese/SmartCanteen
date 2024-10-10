@@ -57,7 +57,7 @@ class Item(models.Model):
     category = models.CharField(max_length=2, choices=CATEGORY_CHOICES)
     food_type = models.CharField(max_length=2, choices=FOOD_CHOICES)
     item_image = models.ImageField(upload_to='items/')
-    quantity = models.IntegerField(validators=[MinValueValidator(0)])
+    quantity = models.IntegerField(default=0,validators=[MinValueValidator(0)])
 
 
     def __str__(self):
