@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
-from .forms import *
+from .forms import CreateCustomerForm,CreateUserForm,AppLoginForm
 
 # Create your views here.
 

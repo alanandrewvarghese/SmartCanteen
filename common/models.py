@@ -97,7 +97,7 @@ class Notification(models.Model):
         return f"Notification for {self.user.username} | {self.message[:50]}..."
 
 
-class Complaints(models.Model):
+class Complaint(models.Model):
     user = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='user_complaints')
     complaint = models.CharField(max_length=600)
     status = models.CharField(max_length=20, default='pending')
