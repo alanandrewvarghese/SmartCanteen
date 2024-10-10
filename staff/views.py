@@ -40,3 +40,7 @@ def add_staff(request):
 @staff_required
 def update_stock(request):
     return render(request, 'update_stock.html')
+
+@staff_required
+def staff_notification(request):
+    return render(request, 'staff_notification.html')

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %} Notifications{% endblock title %}
+
+{% block style %}{%endblock style%}
+
+{% block navlinks %}
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'staff_dashboard' %}">
+        <i class="bi bi-bar-chart me-1"></i>Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link"  href="{% url 'manage_item' %}">
+        <i class="bi bi-boxes me-1"></i>Manage Items
+    </a>
+</li>   
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manage_staff' %}">
+        <i class="bi bi-people me-1"></i>Manage Staff
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'update_stock' %}">
+        <i class="bi bi-box-seam me-1"></i>Update Stock
+
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'staff_notification' %}">
+        <i class="bi bi-bell me-1"></i>Notifications
+    </a>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots me-1"></i>More
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="{% url 'view_orders' %}"><i class="bi bi-person-lines-fill me-2"></i>Manage Customer</a></li>
+        <li><a class="dropdown-item" href="{% url 'khattabook' %}"><i class="bi bi-journal me-2"></i>KhattaBook</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-clipboard-check me-2"></i>Daily Accounts</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-exclamation-triangle me-2"></i>Manage Issue</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'app_logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+    </ul>
+</li>
+
+
+
+{% endblock navlinks %}
+
+{% block messages %}{% endblock messages %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Notifications</h2>
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Order Ready for Pickup</h5>
+                <small>5 mins ago</small>
+            </div>
+            <p class="mb-1">Your order #1234 is ready for pickup at the counter.</p>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Payment Successful</h5>
+                <small>15 mins ago</small>
+            </div>
+            <p class="mb-1">Payment for order #1233 has been successfully processed.</p>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">New Menu Items Available</h5>
+                <small>1 hour ago</small>
+            </div>
+            <p class="mb-1">Check out the new menu items added to the Smart Canteen.</p>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Order Delivered</h5>
+                <small>2 hours ago</small>
+            </div>
+            <p class="mb-1">Your order #1232 has been delivered to your table.</p>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Order #1231 Canceled</h5>
+                <small>Yesterday</small>
+            </div>
+            <p class="mb-1">Your order has been canceled due to unavailability of items.</p>
+        </a>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}{% endblock script %}
