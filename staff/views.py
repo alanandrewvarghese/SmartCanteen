@@ -96,3 +96,7 @@ def update_stock(request):
 @staff_required
 def staff_notification(request):
     return render(request, 'staff_notification.html')
+
+@staff_required
+def manage_customers(request):
+    return render(request, 'manage_customers.html')
