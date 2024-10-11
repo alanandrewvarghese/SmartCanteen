@@ -40,26 +40,30 @@ def add_item(request):
     return render(request, 'add_item.html',context)
 
 @staff_required
-def update_item(request,item_id):
+def update_item(request, item_id):
+    # Fetch the item or return a 404 error if not found
     item = get_object_or_404(Item, pk=item_id)
 
     if request.method == 'POST':
-        # Pass the instance of the item to update
-        itemcreationform = ItemCreationForm(request.POST, request.FILES, instance=item)
-        if itemcreationform.is_valid():
-            itemcreationform.save()  # Save the updated item
-            return redirect('manage_item')  # Redirect to the manage items page
-        else:
-            print("Invalid form")
+        # Initialize form with submitted data and the current item instance
+        form = ItemCreationForm(request.POST, request.FILES, instance=item)
+        
+        if form.is_valid():
+            form.save()  # Save the updated item
+            return redirect('manage_item')  # Redirect after successful update
     else:
-        # Pre-fill the form with the existing item's data
-        itemcreationform = ItemCreationForm(instance=item)
+        # Initialize form with the current item instance for GET request
+        form = ItemCreationForm(instance=item)
 
     context = {
-        "itemcreationform": itemcreationform,
+        "form": form,
         "item": item
     }
+
     return render(request, 'update_item.html', context)
+
+
+
 
 @staff_required
 def delete_item(request, item_id):
