@@ -46,80 +46,42 @@
     <h4 class="mb-4">View Orders</h4>
     <div class="accordion" id="orderAccordion">
 
-        <!-- Order 1 -->
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="order1Heading">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#order1Details" aria-expanded="true" aria-controls="order1Details">
-                    Order ID: 1234 | Order Date: 2024-09-15 | Total Amount: ₹500
-                </button>
-            </h2>
-            <div id="order1Details" class="accordion-collapse collapse show" aria-labelledby="order1Heading" data-bs-parent="#orderAccordion">
-                <div class="accordion-body">
-                    <h6>Items:</h6>
+        {% if orders.exists %}
+            {% for order in orders %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="order{{ order.order_id }}Heading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order{{ order.order_id }}Details" aria-expanded="false" aria-controls="order{{ order.order_id }}Details">
+                            Order ID: {{ order.order_id }} | Order Date: {{ order.ordered_at|date:"Y-m-d" }} | Total Amount: ₹{{ order.total_amount }}
+                        </button>
+                    </h2>
+                    <div id="order{{ order.order_id }}Details" class="accordion-collapse collapse" aria-labelledby="order{{ order.order_id }}Heading" data-bs-parent="#orderAccordion">
+                        <div class="accordion-body">
+                            <h6>Items:</h6>
 
-                    <!-- Item 1 -->
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="me-3">
-                            <img src="https://via.placeholder.com/100" alt="Item 1" class="img-fluid">
-                        </div>
-                        <div>
-                            <h6>Item 1</h6>
-                            <p>Count: 2 | Price: ₹200</p>
-                        </div>
-                    </div>
+                            {% for order_item in order.order_items.all %}
+                                <!-- Item -->
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="me-3">
+                                        <img src="{{ order_item.item.item_image.url }}" alt="{{ order_item.item.item_name }}" class="img-fluid" style="max-width: 100px;">
+                                    </div>
+                                    <div>
+                                        <h6>{{ order_item.item.item_name }}</h6>
+                                        <p>Count: {{ order_item.quantity }} | Price: ₹{{ order_item.item.price|floatformat:2 }}</p> <!-- Replace with actual price field -->
+                                    </div>
+                                </div>
+                            {% endfor %}
 
-                    <!-- Item 2 -->
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="me-3">
-                            <img src="https://via.placeholder.com/100" alt="Item 2" class="img-fluid">
-                        </div>
-                        <div>
-                            <h6>Item 2</h6>
-                            <p>Count: 1 | Price: ₹300</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Order 2 -->
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="order2Heading">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#order2Details" aria-expanded="false" aria-controls="order2Details">
-                    Order ID: 1235 | Order Date: 2024-09-14 | Total Amount: ₹700
-                </button>
-            </h2>
-            <div id="order2Details" class="accordion-collapse collapse" aria-labelledby="order2Heading" data-bs-parent="#orderAccordion">
-                <div class="accordion-body">
-                    <h6>Items:</h6>
-
-                    <!-- Item 1 -->
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="me-3">
-                            <img src="https://via.placeholder.com/100" alt="Item 1" class="img-fluid">
-                        </div>
-                        <div>
-                            <h6>Item 1</h6>
-                            <p>Count: 3 | Price: ₹400</p>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="me-3">
-                            <img src="https://via.placeholder.com/100" alt="Item 2" class="img-fluid">
-                        </div>
-                        <div>
-                            <h6>Item 2</h6>
-                            <p>Count: 2 | Price: ₹300</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            {% endfor %}
+        {% else %}
+            <p>No orders found.</p> <!-- Message when there are no orders -->
+        {% endif %}
 
     </div>
 </div>
+
 
 {% endblock content %}
 

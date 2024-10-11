@@ -23,19 +23,6 @@ class Staff(models.Model):
     def __str__(self):
         return f"Staff: {self.name} ({self.phone})"
 
-
-class Order(models.Model):
-    order_id = models.AutoField(primary_key=True)
-    ordered_at = models.DateTimeField(auto_now_add=True) 
-    payment_status = models.CharField(max_length=10,default="failed")
-
-    class Meta:
-        ordering = ['-ordered_at']
-
-    def __str__(self):
-        return f"Order #{self.order_id} | at {self.ordered_at} | Status: {self.payment_status}"
-
-
 class Item(models.Model):
     CATEGORY_CHOICES = [
         ("BF","Breakfast"),
@@ -63,11 +50,22 @@ class Item(models.Model):
     def __str__(self):
         return f"{self.item_name} : {self.price} INR"
 
+class Order(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')  # Add this
+    ordered_at = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(max_length=10, default="failed")
+
+    class Meta:
+        ordering = ['-ordered_at']
+
+    def __str__(self):
+        return f"Order #{self.order_id} | at {self.ordered_at} | Status: {self.payment_status}"
 
 class OrderItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE ,related_name='item')
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
-    order = models.ForeignKey(Order, on_delete=models.CASCADE ,related_name='order')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE ,related_name='order_items')
 
     class Meta:
         unique_together = ('item', 'order')

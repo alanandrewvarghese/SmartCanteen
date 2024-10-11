@@ -53,6 +53,7 @@
     <h2>Cart</h2>
     <div class="row mb-3">
         <div class="col-md-8">
+            {% if cart_items.exists %}
             {% for item in cart_items %}
             <div class="card mb-3">
                 <div class="row g-0">
@@ -74,6 +75,10 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+                <H4>Your Cart is Empty</H4>
+            {% endif %}
+
         </div>
 
 
@@ -82,7 +87,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4>Total Amount: ₹<span id="total-amount">{{total}}</span></h4>
-                    <a href="#" class="btn btn-success w-100">Place Order</a>
+                    <a href="{% url 'place_order' %}" class="btn btn-success w-100">Place Order</a>
                 </div>
             </div>
         </div>
