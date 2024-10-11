@@ -49,11 +49,11 @@ def add_to_cart(request, item_id):
             raise ValueError("Quantity is invalid before saving.")
 
         cart_item.save()
-
+        messages.success(request, f"{item.item_name} added to cart successfully!")
     except Exception as e:
         pass
     
-    return redirect('view_cart')
+    return redirect('customer_dashboard')
 
 
 @customer_required

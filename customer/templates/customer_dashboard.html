@@ -26,6 +26,12 @@
 .btn-add-to-cart {
     margin-top: 10px;
 }
+
+.small-alert {
+    padding: 15px;
+    font-size: 1rem;
+    margin: 5px;
+}
 {%endblock style%}
 
 {% block navlinks %}
@@ -59,8 +65,16 @@
 {% endblock navlinks %}
 
 {% block messages %}
+{% for message in messages %}
 
+<div class="alert alert-info small-alert alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+{% endfor %}
 {% endblock messages %}
+
 
 {% block content %}
 
@@ -102,118 +116,37 @@
                     
                     <form action="{% url 'add_to_cart' item.item_id %}" method="post">
                         {% csrf_token %}
+                        <button class="btn btn-primary btn-add-to-cart" onclick="showPopup()">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    <!-- Segment 3: Item Menu -->
+    <h2 class="my-4">Item Menu</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in items %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="Item 1">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}} </h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
                         <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
                     </form>
                 </div>
             </div>
         </div>
         {% endfor %}
-
-        <!-- Item 2 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/300x150?text=Item+2" class="card-img-top item-photo" alt="Item 2">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 2</h5>
-                    <p class="card-text">$12.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <!-- Item 3 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/300x150?text=Item+3" class="card-img-top item-photo" alt="Item 3">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 3</h5>
-                    <p class="card-text">$8.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <!-- Item 4 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/300x150?text=Item+4" class="card-img-top item-photo" alt="Item 4">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 4</h5>
-                    <p class="card-text">$15.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
     </div>
-
-    <!-- Segment 3: Item Menu -->
-    <h2 class="my-4">Item Menu</h2>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-6 g-4">
-        <!-- Item 1 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/200x150?text=Item+1" class="card-img-top item-photo" alt="Item 1">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 1</h5>
-                    <p class="card-text">$10.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <!-- Item 2 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/200x150?text=Item+2" class="card-img-top item-photo" alt="Item 2">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 2</h5>
-                    <p class="card-text">$12.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <!-- Item 3 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/200x150?text=Item+3" class="card-img-top item-photo" alt="Item 3">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 3</h5>
-                    <p class="card-text">$8.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <!-- Item 4 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/200x150?text=Item+4" class="card-img-top item-photo" alt="Item 4">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 4</h5>
-                    <p class="card-text">$15.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <!-- Item 5 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/200x150?text=Item+5" class="card-img-top item-photo" alt="Item 5">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 5</h5>
-                    <p class="card-text">$9.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-        <!-- Item 6 -->
-        <div class="col">
-            <div class="card item-card">
-                <img src="https://via.placeholder.com/200x150?text=Item+6" class="card-img-top item-photo" alt="Item 6">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 6</h5>
-                    <p class="card-text">$11.00</p>
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</div><br>
 
 {% endblock content %}
+
+{% block script %}
+
+{% endblock script %}
