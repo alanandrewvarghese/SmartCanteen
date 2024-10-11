@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Add items{% endblock title %}
+{% block title %}Update Item{% endblock title %}
 
 {% block style %}
 
@@ -8,6 +8,8 @@ body {
     font-family: 'Roboto', sans-serif;
     background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
     background-size: cover;
+    {% comment %} height: 100vh;
+    overflow: hidden; {% endcomment %}
 }
 .overlay {
     background-color: rgba(255, 255, 255, 0.95);
@@ -56,13 +58,14 @@ body {
 
 {% block navlinks %}
 
+
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'staff_dashboard' %}">
+    <a class="nav-link " href="{% url 'staff_dashboard' %}">
         <i class="bi bi-bar-chart me-1"></i>Dashboard
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link active" aria-current="page"  href="{% url 'manage_item' %}">
+    <a class="nav-link" href="{% url 'manage_item' %}">
         <i class="bi bi-boxes me-1"></i>Manage Items
     </a>
 </li>   
@@ -72,7 +75,7 @@ body {
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'update_stock' %}">
+    <a class="nav-link"  href="{% url 'update_stock' %}">
         <i class="bi bi-box-seam me-1"></i>Update Stock
 
     </a>
@@ -107,13 +110,26 @@ body {
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="form-container">
-                    <h2 class="form-title">Add New Item</h2>
-                    <form id="addItemForm" action="{% url 'add_item' %}" method="post" enctype="multipart/form-data">
+                    <h2 class="form-title">Update Item</h2>
+                    <!-- Make sure to include CSRF token for security -->
+                    <form id="updateItemForm" action="{% url 'manage_item' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
+                        <!-- Display form errors if any -->
+                        {% if itemcreationform.errors %}
+                            <div class="alert alert-danger">
+                                <ul>
+                                    {% for error in itemcreationform.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Render the form fields -->
                         {{ itemcreationform.as_p }}
-                        <br>
+                        
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-submit btn-primary">Add Item</button>
+                            <button type="submit" class="btn btn-submit btn-primary">Update Item</button>
                         </div>
                     </form>
                 </div>
@@ -121,6 +137,8 @@ body {
         </div>
     </div>
 </div>
+
+
 
 {% endblock content %}
 
