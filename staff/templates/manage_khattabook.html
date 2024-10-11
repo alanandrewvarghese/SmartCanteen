@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage KhattaBook{% endblock title %}
+
+{% block style %}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+h2 {
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+.btn-khatta {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-khatta:hover {
+    background-color: #0056b3;
+}
+
+.status-active {
+    color: green;
+    font-weight: bold;
+}
+
+.status-inactive {
+    color: red;
+    font-weight: bold;
+}
+
+{%endblock style%}
+
+{% block navlinks %}
+
+<li class="nav-item">
+    <a class="nav-link " href="{% url 'staff_dashboard' %}">
+        <i class="bi bi-bar-chart me-1"></i>Dashboard
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manage_item' %}">
+        <i class="bi bi-boxes me-1"></i>Manage Items
+    </a>
+</li>   
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manage_staff' %}">
+        <i class="bi bi-people me-1"></i>Manage Staff
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link"  href="{% url 'update_stock' %}">
+        <i class="bi bi-box-seam me-1"></i>Update Stock
+
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'staff_notification' %}">
+        <i class="bi bi-bell me-1"></i>Notifications
+    </a>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots me-1"></i>More
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="{% url 'manage_customers' %}"><i class="bi bi-person-lines-fill me-2"></i>Manage Customer</a></li>
+        <li><a class="dropdown-item active" aria-current="page" href="{% url 'manage_khattabook' %}"><i class="bi bi-journal me-2"></i>KhattaBook</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-clipboard-check me-2"></i>Daily Accounts</a></li>
+        <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-exclamation-triangle me-2"></i>Manage Issue</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'app_logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+    </ul>
+</li>
+
+
+{% endblock navlinks %}
+
+{% block messages %}{% endblock messages %}
+
+{% block content %}
+
+<div class="container">
+    <h2 class="text-center mb-4">KhattaBook Status Overview</h2>
+
+    <!-- KhattaBook Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">KhattaBook Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example Row 1 -->
+                <tr>
+                    <td>1001</td>
+                    <td>John Doe</td>
+                    <td><span class="status-active">Active</span></td>
+                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
+                </tr>
+                <!-- Example Row 2 -->
+                <tr>
+                    <td>1002</td>
+                    <td>Jane Smith</td>
+                    <td><span class="status-inactive">Inactive</span></td>
+                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
+                </tr>
+                <!-- Example Row 3 -->
+                <tr>
+                    <td>1003</td>
+                    <td>Rahul Kumar</td>
+                    <td><span class="status-active">Active</span></td>
+                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
+                </tr>
+                <!-- Example Row 4 -->
+                <tr>
+                    <td>1004</td>
+                    <td>Sara Khan</td>
+                    <td><span class="status-inactive">Inactive</span></td>
+                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}{% endblock script %}

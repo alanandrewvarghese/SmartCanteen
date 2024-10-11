@@ -100,3 +100,7 @@ def staff_notification(request):
 @staff_required
 def manage_customers(request):
     return render(request, 'manage_customers.html')
+
+@staff_required
+def manage_khattabook(request):
+    return render(request, 'manage_khattabook.html')
