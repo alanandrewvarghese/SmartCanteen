@@ -108,12 +108,13 @@ body {
                     <p class="card-text"><strong>In Stock:</strong> {{item.quantity}}</p>
                     <div class="d-flex justify-content-end mt-3">
                         
-                        <form action="" method="POST" style="display:inline-block;">
+                        <form action="{% url 'update_item' item.item_id %}" method="POST" style="display:inline-block;">
+                            {% csrf_token %}
                             <button type="submit" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i> Edit
                             </button>
                         </form>
-
+                       
                         <span>&nbsp;</span>
 
                         <form action="{% url 'delete_item' item.item_id %}" method="POST" style="display:inline-block;">
