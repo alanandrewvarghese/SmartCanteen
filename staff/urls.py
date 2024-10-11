@@ -10,7 +10,8 @@ urlpatterns = [
     path('update_stock/',views.update_stock,name='update_stock'),
     path('staff_notification/',views.staff_notification,name='staff_notification'),
     path('item/delete/<int:item_id>/', views.delete_item, name='delete_item'),
-
+    path('manage_customers/',views.manage_customers,name='manage_customers'),
+    
 
     
 ]
