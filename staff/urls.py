@@ -11,6 +11,8 @@ urlpatterns = [
     path('staff_notification/',views.staff_notification,name='staff_notification'),
     path('item/delete/<int:item_id>/', views.delete_item, name='delete_item'),
     path('manage_customers/',views.manage_customers,name='manage_customers'),
+    path('manage_khattabook/',views.manage_khattabook,name='manage_khattabook'),
+
     
 
     
