@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 
+
+def to_title_case(text):
+    return text.title()
+
 # Create your models here.
 
 class Customer(models.Model):
@@ -49,6 +53,11 @@ class Item(models.Model):
 
     def __str__(self):
         return f"{self.item_name} : {self.price} INR"
+    
+    def save(self, *args, **kwargs):
+        # Convert text to title case before saving
+        self.item_name = to_title_case(self.item_name)
+        super().save(*args, **kwargs)
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
