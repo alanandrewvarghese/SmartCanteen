@@ -1,32 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Add Staff{% endblock title %}
+{% block title %}{% endblock title %}
 
-{% block style %}
+{% block style %}{%endblock style%}
 
-body {
-    background-color: #f8f9fa;
-    font-family: 'Arial', sans-serif;
-}
-.card {
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-.form-control:focus {
-    border-color: #007bff;
-    box-shadow: none;
-}
-.btn-primary {
-    border-radius: 5px;
-    padding: 10px 20px;
-}
-.submit-section {
-    margin-top: 20px;
-}
+{% block navlinks %}
 
-{%endblock style %}
-
-{% block navlinks%}
 
 <li class="nav-item">
     <a class="nav-link" href="{% url 'staff_dashboard' %}">
@@ -34,12 +13,12 @@ body {
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link "  href="{% url 'manage_item' %}">
+    <a class="nav-link active" aria-current="page"  href="{% url 'manage_item' %}">
         <i class="bi bi-boxes me-1"></i>Manage Items
     </a>
 </li>   
 <li class="nav-item">
-    <a class="nav-link active" aria-current="page"  href="{% url 'manage_staff' %}">
+    <a class="nav-link" href="{% url 'manage_staff' %}">
         <i class="bi bi-people me-1"></i>Manage Staff
     </a>
 </li>
@@ -61,7 +40,7 @@ body {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
         <li><a class="dropdown-item" href="{% url 'manage_customers' %}"><i class="bi bi-person-lines-fill me-2"></i>Manage Customer</a></li>
         <li><a class="dropdown-item" href="{% url 'manage_khattabook' %}"><i class="bi bi-journal me-2"></i>KhattaBook</a></li>
-        <li><a class="dropdown-item" href="{% url 'manage_accounts' %}"><i class="bi bi-clipboard-check me-2"></i>Daily Accounts</a></li>
+        <li><a class="dropdown-item active" aria-current="page" href="{% url 'manage_accounts' %}"><i class="bi bi-clipboard-check me-2"></i>Daily Accounts</a></li>
         <li><a class="dropdown-item" href="{% url 'raise_issue' %}"><i class="bi bi-exclamation-triangle me-2"></i>Manage Issue</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="{% url 'app_logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
@@ -75,26 +54,48 @@ body {
 {% block content %}
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card p-4">
-                <h2 class="text-center mb-4">Add New Staff</h2>
-                <form method="post">
-                    {% csrf_token %}
-                    {{staffform.as_p}}
-                    {{userform.as_p}}
-            
-                    <div class="submit-section d-grid">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <h2 class="text-center mb-4">Daily Account Overview</h2>
+    
+    <!-- Daily Account Table -->
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Example Data Row 1 -->
+            <tr>
+                <td>#1001</td>
+                <td>₹500</td>
+                <td>₹500</td>
+            </tr>
+            <!-- Example Data Row 2 -->
+            <tr>
+                <td>#1002</td>
+                <td>₹300</td>
+                <td>₹800</td>
+            </tr>
+            <!-- Example Data Row 3 -->
+            <tr>
+                <td>#1003</td>
+                <td>₹450</td>
+                <td>₹1,250</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+        <!-- Table Footer for Total -->
+        <tfoot class="table-light">
+            <tr>
+                <th colspan="2">Total</th>
+                <th>₹1,250</th>
+            </tr>
+        </tfoot>
+    </table>
 </div>
 
 {% endblock content %}
 
-{% block script %}
-
-{% endblock script %}
+{% block script %}{% endblock script %}
