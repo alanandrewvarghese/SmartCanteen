@@ -13,6 +13,8 @@ urlpatterns = [
     path('manage_customers/',views.manage_customers,name='manage_customers'),
     path('manage_khattabook/',views.manage_khattabook,name='manage_khattabook'),
     path('manage_accounts/',views.manage_accounts,name='manage_accounts'),
+    path('manage_issues/',views.manage_issues,name='manage_issues'),
+
 
 
     

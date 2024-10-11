@@ -108,3 +108,7 @@ def manage_khattabook(request):
 @staff_required
 def manage_accounts(request):
     return render(request, 'manage_accounts.html')
+
+@staff_required
+def manage_issues(request):
+    return render(request, 'manage_issues.html')
