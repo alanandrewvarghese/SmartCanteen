@@ -1,14 +1,18 @@
 from django.shortcuts import render, get_object_or_404
 from common.decorators import *
-from staff.forms import ItemCreationForm, StaffCreationForm
+from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
 from common.forms import CreateUserForm
-from common.models import Item
+from common.models import Item, Order
 
 # Create your views here.
 
 @staff_required
 def staff_dashboard(request):
-    return render(request, 'staff_dashboard.html')
+    orders = Order.objects.all()
+    context={
+        'orders': orders
+    }
+    return render(request, 'staff_dashboard.html', context)
 
 @staff_required
 def manage_item(request):
@@ -39,20 +43,18 @@ def add_item(request):
     }
     return render(request, 'add_item.html',context)
 
+
 @staff_required
 def update_item(request, item_id):
-    # Fetch the item or return a 404 error if not found
     item = get_object_or_404(Item, pk=item_id)
 
     if request.method == 'POST':
-        # Initialize form with submitted data and the current item instance
         form = ItemCreationForm(request.POST, request.FILES, instance=item)
         
         if form.is_valid():
-            form.save()  # Save the updated item
-            return redirect('manage_item')  # Redirect after successful update
+            form.save()
+            return redirect('manage_item')  
     else:
-        # Initialize form with the current item instance for GET request
         form = ItemCreationForm(instance=item)
 
     context = {
@@ -61,8 +63,6 @@ def update_item(request, item_id):
     }
 
     return render(request, 'update_item.html', context)
-
-
 
 
 @staff_required
@@ -95,7 +95,27 @@ def add_staff(request):
 
 @staff_required
 def update_stock(request):
-    return render(request, 'update_stock.html')
+    form=StockUpdationForm()
+    if request.method=='POST':
+        item_id=request.POST['item_id']
+        item=get_object_or_404(Item,pk=item_id)
+
+        form=StockUpdationForm(request.POST)
+        if form.is_valid():
+            stock=form.cleaned_data['stock']
+            item.quantity=stock
+            item.save()
+            return redirect('update_stock')
+        else:
+            print("Invalid Form")
+        
+    items = Item.objects.all()
+
+    context={
+        'form':form,
+        'items':items
+    }
+    return render(request, 'update_stock.html', context)
 
 @staff_required
 def staff_notification(request):

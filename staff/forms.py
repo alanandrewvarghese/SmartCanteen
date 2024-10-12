@@ -60,3 +60,18 @@ class ItemCreationForm(ModelForm):
     class Meta:
         model = Item
         fields = ['item_name', 'price', 'category', 'food_type', 'item_image']
+
+
+class StockUpdationForm(forms.Form):
+    stock = forms.IntegerField(
+        label='',
+        min_value=0,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control', 
+            'placeholder': 'Enter new stock'
+        }),
+        error_messages={
+            'required': 'Please enter a quantity.',
+            'min_value': 'Quantity must be at least 1.'
+        }
+    )

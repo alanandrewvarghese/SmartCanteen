@@ -8,6 +8,12 @@
     margin: 10px;
 }
 
+.img-small{
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
 {%endblock style %}
 
 {% block navlinks%}
@@ -59,71 +65,28 @@
 {% block content %}
 
 <div class="container mt-5">
-    <h1 class="text-center">Stock Update</h1>
+    <h1 class="text-center">Update Stock</h1>
     <div class="row">
 
-        <!-- Example Card 1 -->
+        {% for item in items %}
         <div class="col-md-3">
             <div class="card">
-                <img src="item-image-url-1.jpg" class="card-img-top" alt="Item Image">
+                <img src="{{item.item_image.url}}" class="card-img-top img-small" alt="Item Image">
                 <div class="card-body">
-                    <h5 class="card-title">Item Name 1</h5>
-                    <p class="card-text">Item ID: 12345</p>
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="Quantity" aria-label="Quantity" min="0">
-                        <button class="btn btn-primary" type="button">Update</button>
-                    </div>
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">Item ID: {{item.item_id}}</p>
+    
+                    <form action="{% url 'update_stock'%}" method="post" class="input-group mb-3">
+                        {% csrf_token %}
+                        <input type="hidden" name="item_id" value="{{ item.item_id }}">
+                        {{ form.stock }}
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </form>
                 </div>
             </div>
-        </div>
+        </div>        
+        {% endfor %}
 
-        <!-- Example Card 2 -->
-        <div class="col-md-3">
-            <div class="card">
-                <img src="item-image-url-2.jpg" class="card-img-top" alt="Item Image">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 2</h5>
-                    <p class="card-text">Item ID: 12346</p>
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="Quantity" aria-label="Quantity" min="0">
-                        <button class="btn btn-primary" type="button">Update</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Example Card 3 -->
-        <div class="col-md-3">
-            <div class="card">
-                <img src="item-image-url-3.jpg" class="card-img-top" alt="Item Image">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 3</h5>
-                    <p class="card-text">Item ID: 12347</p>
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="Quantity" aria-label="Quantity" min="0">
-                        <button class="btn btn-primary" type="button">Update</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Example Card 4 -->
-        <div class="col-md-3">
-            <div class="card">
-                <img src="item-image-url-4.jpg" class="card-img-top" alt="Item Image">
-                <div class="card-body">
-                    <h5 class="card-title">Item Name 4</h5>
-                    <p class="card-text">Item ID: 12348</p>
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" placeholder="Quantity" aria-label="Quantity" min="0">
-                        <button class="btn btn-primary" type="button">Update</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Repeat similar card blocks for additional items -->
-        
     </div>
 </div>
 
