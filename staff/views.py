@@ -143,7 +143,12 @@ def staff_notification(request):
 
 @staff_required
 def manage_customers(request):
-    return render(request, 'manage_customers.html')
+    customers=Customer.objects.all()
+
+    context={
+        'customers': customers
+    }
+    return render(request, 'manage_customers.html', context)
 
 @staff_required
 def manage_khattabook(request):

@@ -57,127 +57,25 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Customer Account Management</h2>
 
-    <!-- Slot 1: Premium Customers -->
     <div class="mb-4">
         
         <div class="row">
-            <!-- Customer 1 -->
+
+            {% for customer in customers %}
             <div class="col-md-3">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">John Doe</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1001</p>
-                        <p class="card-text"><strong>Email:</strong> johndoe@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
+                        <h5 class="card-title">{{customer.name}}</h5>
+                        <p class="card-text"><strong>Customer ID:</strong> {{customer.user.id}}</p>
+                        <p class="card-text"><strong>Email:</strong> {{customer.email}}</p> <hr>
+                        {% comment %} <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p> {% endcomment %}
                         <button class="btn btn-warning btn-sm">Disable</button>
                         <button class="btn btn-danger btn-sm">Delete</button>
                     </div>
                 </div>
             </div>
-
-            <!-- Customer 2 -->
-            <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Jane Smith</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1002</p>
-                        <p class="card-text"><strong>Email:</strong> janesmith@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-danger">Disabled</span></p>
-                        <button class="btn btn-success btn-sm">Enable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Customer 3 -->
-            <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Rahul Singh</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1003</p>
-                        <p class="card-text"><strong>Email:</strong> rahulsingh@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                        <button class="btn btn-warning btn-sm">Disable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Customer 4 -->
-            <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Amit Kumar</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1004</p>
-                        <p class="card-text"><strong>Email:</strong> amitkumar@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                        <button class="btn btn-warning btn-sm">Disable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slot 2: Regular Customers -->
-    <div class="mb-4">
-        
-        <div class="row">
-            <!-- Customer 5 -->
-            <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Samantha Lee</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1005</p>
-                        <p class="card-text"><strong>Email:</strong> samanthalee@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-danger">Disabled</span></p>
-                        <button class="btn btn-success btn-sm">Enable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Customer 6 -->
-            <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Michael Brown</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1006</p>
-                        <p class="card-text"><strong>Email:</strong> michaelbrown@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                        <button class="btn btn-warning btn-sm">Disable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Customer 7 -->
-            <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Emily Davis</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1007</p>
-                        <p class="card-text"><strong>Email:</strong> emilydavis@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-danger">Disabled</span></p>
-                        <button class="btn btn-success btn-sm">Enable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Customer 8 -->
-            <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">David Wilson</h5>
-                        <p class="card-text"><strong>Customer ID:</strong> 1008</p>
-                        <p class="card-text"><strong>Email:</strong> davidwilson@example.com</p>
-                        <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                        <button class="btn btn-warning btn-sm">Disable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+            
         </div>
     </div>
 
