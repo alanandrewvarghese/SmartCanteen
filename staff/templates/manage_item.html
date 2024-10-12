@@ -18,12 +18,7 @@ body {
 .card:hover {
     transform: scale(1.05);
 }
-.item-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 15px 15px 0 0;
-}
+
 .card-title {
     font-size: 1.25rem;
     font-weight: bold;
@@ -36,6 +31,12 @@ body {
 
 .btn-add:hover {
     background-color: #218838;
+}
+
+.img-resize {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
 }
     
 {%endblock style%}
@@ -98,7 +99,7 @@ body {
         {% for item in items %}
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card">
-                <img src="{{item.item_image.url}}" alt="Veg Burger" class="item-image">
+                <img src="{{item.item_image.url}}" alt="{{item.item_name}}" class="img-resize">
                 <div class="card-body">
                     <h5 class="card-title">{{item.item_name}}</h5>
                     <p class="card-text"><strong>Item ID:</strong> {{item.item_id}}</p>
