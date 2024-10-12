@@ -3,7 +3,7 @@ from common.decorators import *
 from django.db.models import Sum, Count
 from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
 from common.forms import CreateUserForm
-from common.models import Item, Order, OrderItem,Customer
+from common.models import Item, Order, OrderItem,Customer,Staff
 
 # Create your views here.
 
@@ -39,7 +39,12 @@ def manage_item(request):
 
 @staff_required
 def manage_staff(request):
-    return render(request, 'manage_staff.html')
+    staff_details=Staff.objects.all()
+
+    context = {
+        'staff_details': staff_details
+    }
+    return render(request, 'manage_staff.html', context)
 
 @staff_required
 def add_item(request):

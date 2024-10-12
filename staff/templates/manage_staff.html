@@ -60,7 +60,7 @@ body {
 }
 .staff-id {
     font-size: 0.9rem;
-    color: #7f8c8d;
+    color: #ddd;
 }
 @media (max-width: 768px) {
     .card {
@@ -128,53 +128,24 @@ body {
     </div>
 
     <div class="row">
+        {% for staff in staff_details %}
         <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="staff-header">
-                    <h5 class="mb-0">John Doe</h5>
-                    <small class="staff-id">ID: ST001</small>
+                    <h5 class="mb-0">{{staff.name}}</h5>
+                    <small class="staff-id">{{staff.user.id}}</small>
                 </div>
                 <div class="staff-body">
-                    <p class="staff-info"><i class="bi bi-telephone me-2"></i>+1 (123) 456-7890</p>
-                    <p class="staff-info"><i class="bi bi-envelope me-2"></i>john.doe@example.com</p>
-                    <button class="btn btn-remove mt-2">
+                    <p class="staff-info"><i class="bi bi-telephone me-2"></i>{{staff.phone}}</p>
+                    <p class="staff-info"><i class="bi bi-envelope me-2"></i>{{staff.email}}</p>
+                    {% comment %} <button class="btn btn-remove mt-2">
                         <i class="bi bi-trash me-2"></i>Remove
-                    </button>
+                    </button> {% endcomment %}
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="staff-header">
-                    <h5 class="mb-0">Jane Smith</h5>
-                    <small class="staff-id">ID: ST002</small>
-                </div>
-                <div class="staff-body">
-                    <p class="staff-info"><i class="bi bi-telephone me-2"></i>+1 (234) 567-8901</p>
-                    <p class="staff-info"><i class="bi bi-envelope me-2"></i>jane.smith@example.com</p>
-                    <button class="btn btn-remove mt-2">
-                        <i class="bi bi-trash me-2"></i>Remove
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="staff-header">
-                    <h5 class="mb-0">Mike Johnson</h5>
-                    <small class="staff-id">ID: ST003</small>
-                </div>
-                <div class="staff-body">
-                    <p class="staff-info"><i class="bi bi-telephone me-2"></i>+1 (345) 678-9012</p>
-                    <p class="staff-info"><i class="bi bi-envelope me-2"></i>mike.johnson@example.com</p>
-                    <button class="btn btn-remove mt-2">
-                        <i class="bi bi-trash me-2"></i>Remove
-                    </button>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
+       
     </div>
 </div>
 
