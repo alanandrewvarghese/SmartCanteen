@@ -1,17 +1,32 @@
 from django.shortcuts import render, get_object_or_404
 from common.decorators import *
+from django.db.models import Sum, Count
 from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
 from common.forms import CreateUserForm
-from common.models import Item, Order
+from common.models import Item, Order, OrderItem,Customer
 
 # Create your views here.
 
 @staff_required
 def staff_dashboard(request):
-    orders = Order.objects.all()
-    context={
-        'orders': orders
+    # Fetching all orders with related order items and calculating total price for each order
+    orders = Order.objects.prefetch_related('order_items').annotate(
+        total_price=Sum('order_items__item__price')
+    ).all().order_by('-order_id')
+    
+
+    dashboard_data = {
+        'total_orders': Order.objects.count(),  
+        'total_customers': Customer.objects.count(),  
+        'total_revenue': orders.aggregate(total_revenue=Sum('total_price'))['total_revenue'] or 0  
     }
+
+
+    context = {
+        'orders': orders,
+        'data': dashboard_data
+    }
+    
     return render(request, 'staff_dashboard.html', context)
 
 @staff_required

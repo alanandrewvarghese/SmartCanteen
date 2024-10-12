@@ -25,6 +25,31 @@ body {
     color: #0d6efd;
 }
 
+.item-list {
+    list-style-type: none; /* Removes default list styles */
+    padding: 0; /* Removes padding */
+    margin: 0; /* Removes margin */
+}
+
+.toggle-btn {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* Text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex; /* To align icon and text */
+    align-items: center; /* Center vertically */
+}
+
+.toggle-btn i {
+    margin-right: 5px; /* Space between icon and text */
+}
+
+.toggle-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
 {%endblock style%}
 
 {% block navlinks %}
@@ -87,7 +112,7 @@ body {
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total Orders</h5>
-                        <p class="metric-value">1,234</p>
+                        <p class="metric-value">{{data.total_orders}}</p>
                     </div>
                 </div>
             </div>
@@ -95,15 +120,15 @@ body {
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Revenue</h5>
-                        <p class="metric-value">$15,678</p>
+                        <p class="metric-value">&#8377; {{data.total_revenue}}</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Active Users</h5>
-                        <p class="metric-value">567</p>
+                        <h5 class="card-title">Active Customers</h5>
+                        <p class="metric-value">{{data.total_customers}}</p>
                     </div>
                 </div>
             </div>
@@ -141,26 +166,23 @@ body {
                                 <th>Customer</th>
                                 <th>Items</th>
                                 <th>Total</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for order in orders %}
                             <tr>
-                                <td>1001</td>
-                                <td>John Doe</td>
-                                <td>Burger, Fries</td>
-                                <td>$12.99</td>
-                                <td><span class="badge bg-success">Completed</span></td>
+                                <td>{{ order.order_id }}</td>
+                                <td>{{ order.customer.name }}</td>
+                                <td >
+                                        {% for item in order.order_items.all %}
+                                        {{ item.item.item_name }} ({{ item.quantity }})
+                                        {% endfor %}
+                                </td>
+                                <td>&#8377; {{ order.total_price|default:0 }}</td>
                             </tr>
-                            <tr>
-                                <td>1002</td>
-                                <td>Jane Smith</td>
-                                <td>Pizza, Soda</td>
-                                <td>$15.50</td>
-                                <td><span class="badge bg-warning">Preparing</span></td>
-                            </tr>
-                            <!-- Add more rows as needed -->
+                            {% endfor %}
                         </tbody>
+                        
                     </table>
                 </div>
             </div>
