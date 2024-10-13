@@ -63,11 +63,13 @@ def customer_notifications(request):
 @customer_required
 def view_orders(request):
     customer = request.user.customer
-    orders = Order.objects.filter(customer=customer)
+    orders = Order.objects.filter(customer=customer).prefetch_related('items__item')
 
     for order in orders:
-        total_amount = sum(order_item.quantity * order_item.item.price for order_item in order.order_items.all())
-        order.total_amount = total_amount  # Add total_amount as an attribute to the order
+        order.total_amount = sum(
+            order_item.quantity * order_item.item.price 
+            for order_item in order.items.all()
+        )
 
     context = {
         'orders': orders
@@ -84,25 +86,33 @@ def place_order(request):
     
     if not cart or not cart.cart_items.exists():
         messages.error(request, 'Your cart is empty.')
-        return redirect('cart')  # Redirect to the cart view
+        return redirect('view_cart')  # Redirect to the cart view
 
-    # Create an order and assign the customer
-    order = Order.objects.create(customer=customer)  # Add the customer here
+    try:
+        # Create an order and assign the customer
+        order = Order.objects.create(customer=customer)
 
-    # Create OrderItems from the cart
-    for cart_item in cart.cart_items.all():
-        OrderItem.objects.create(
-            order=order,
-            item=cart_item.item,
-            quantity=cart_item.quantity
-        )
+        # Create OrderItems from the cart
+        order_items = [
+            OrderItem(
+                order=order,
+                item=cart_item.item,
+                quantity=cart_item.quantity
+            ) for cart_item in cart.cart_items.all()
+        ]
+        OrderItem.objects.bulk_create(order_items)
 
-    # Clear the cart after placing the order
-    cart.cart_items.all().delete()
+        # Clear the cart after placing the order
+        cart.cart_items.all().delete()
 
-    messages.success(request, 'Your order has been placed successfully!')
-    return redirect('view_orders')  # Redirect to view the orders
+        messages.success(request, 'Your order has been placed successfully!')
+        return redirect('view_orders')  # Redirect to view the orders
 
+    except Exception as e:
+        # Log the error (in a production environment)
+        print(f"Error placing order: {str(e)}")
+        messages.error(request, 'An error occurred while placing your order. Please try again.')
+        return redirect('view_cart')
 
 @customer_required
 def khattabook(request):

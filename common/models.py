@@ -61,7 +61,7 @@ class Item(models.Model):
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')  # Add this
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='orders')
     ordered_at = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(max_length=10, default="failed")
 
@@ -72,9 +72,9 @@ class Order(models.Model):
         return f"Order #{self.order_id} | at {self.ordered_at} | Status: {self.payment_status}"
 
 class OrderItem(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE ,related_name='item')
+    item = models.ForeignKey('Item', on_delete=models.CASCADE, related_name='order_items')
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
-    order = models.ForeignKey(Order, on_delete=models.CASCADE ,related_name='order_items')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
 
     class Meta:
         unique_together = ('item', 'order')
