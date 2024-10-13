@@ -74,7 +74,12 @@
                                 <button class="btn btn-outline-primary btn-sm me-2 decrement">-</button>
                                 <span class="cart-item-quantity">{{item.quantity}}</span>
                                 <button class="btn btn-outline-primary btn-sm ms-2 increment">+</button>
-                                <button class="btn btn-danger btn-sm ms-auto">Remove</button>
+
+                                <form class="ms-auto" action="{% url 'delete_from_cart' item.item_id%}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm ms-auto">Remove</button>
+                                </form>
+
                             </div>
                         </div>
                     </div>

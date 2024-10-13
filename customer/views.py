@@ -78,6 +78,20 @@ def add_to_cart(request, item_id):
 
     return redirect('customer_dashboard')
 
+@customer_required
+def delete_from_cart(request, item_id):
+    cart = get_object_or_404(Cart, customer=request.user.customer)
+    
+    try:
+        item = CartItem.objects.get(item_id=item_id, cart=cart)
+    except CartItem.DoesNotExist:
+        messages.error(request, 'Item not found in your cart.')
+        return redirect('view_cart')
+    
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, f'The item "{item.item.item_name}" has been removed from your cart.')
+        return redirect('view_cart')
 
 
 @customer_required
