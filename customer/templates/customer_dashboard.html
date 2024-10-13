@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Dashboard{% endblock title %}
 
 {% block style %}
@@ -84,7 +86,7 @@
     <div id="advertisementCarousel" class="carousel slide mb-4">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://via.placeholder.com/1200x400?text=Advertisement+1" alt="Advertisement 1">
+                <img src="{% static 'images/advertisement1.png' %}" alt="Advertisement 1">
             </div>
             <div class="carousel-item">
                 <img src="https://via.placeholder.com/1200x400?text=Advertisement+2" alt="Advertisement 2">
