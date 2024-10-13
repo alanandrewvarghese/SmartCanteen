@@ -9,9 +9,24 @@ from django.core.exceptions import ObjectDoesNotExist
 
 @customer_required
 def customer_dashboard(request):
-    items = Item.objects.all()
+    items_in_stock = Item.objects.filter(quantity__gt=0)
+    items_out_of_stock = Item.objects.filter(quantity__lt=1)
+    bf = Item.objects.filter(category='BF')
+    cr = Item.objects.filter(category='CR')
+    ln = Item.objects.filter(category='LN')
+    sk = Item.objects.filter(category='SK')
+    dr = Item.objects.filter(category='DR')
+    ds = Item.objects.filter(category='DS')
+
     context = {
-        "items":items
+        "items_in_stock":items_in_stock,
+        "items_out_of_stock":items_out_of_stock,
+        "bf":bf,
+        "cr":cr,
+        "ln":ln,
+        "sk":sk,
+        "dr":dr,
+        "ds":ds,
     }
     return render(request, 'customer_dashboard.html', context)
 

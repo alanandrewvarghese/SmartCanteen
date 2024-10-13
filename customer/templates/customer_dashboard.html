@@ -38,6 +38,19 @@
 .disabled-card {
     pointer-events: none; /* Prevents any interaction */
     opacity: 0.6; /* Makes it look disabled */
+    position: relative; /* Required for absolute positioning of the message */
+}
+
+.out-of-stock-message {
+    position: absolute; /* Position the message absolutely */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for center alignment */
+    background-color: rgba(255, 0, 0, 0.7); /* Semi-transparent red background */
+    color: white; /* White text color */
+    padding: 5px; /* Padding around the text */
+    border-radius: 2px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
 }
 {%endblock style%}
 
@@ -135,17 +148,148 @@
         {% endfor %}
     </div> {% endcomment %}
 
-    <!-- Segment 3: Item Menu -->
-    <h2 class="my-4">Item Menu</h2>
+    <h2 class="my-4">Breakfast</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
-        {% for item in items %}
+        {% for item in bf %}
         <div class="col">
-            <div class="card item-card disabled-card">
+            <div class="card item-card">
                 <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
                 <div class="card-body">
                     <h5 class="card-title">{{item.item_name}}</h5>
                     <p class="card-text">&#8377; {{item.price}}</p>
-                    
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="my-4">Curry</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in cr %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="my-4">Lunch</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in ln %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="my-4">Snacks</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in sk %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="my-4">Drinks</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in dr %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="my-4">Desserts</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in ds %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Segment 3: Item Menu -->
+    <h2 class="my-4">Item Menu</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in items_in_stock %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% for item in items_out_of_stock %}
+        <div class="col">
+            <div class="card disabled-card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+
+                    <div class="out-of-stock-message">Out of Stock</div>
+
                     <form action="{% url 'add_to_cart' item.item_id %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
