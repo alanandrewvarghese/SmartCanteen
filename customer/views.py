@@ -11,12 +11,12 @@ from django.core.exceptions import ObjectDoesNotExist
 def customer_dashboard(request):
     items_in_stock = Item.objects.filter(quantity__gt=0)
     items_out_of_stock = Item.objects.filter(quantity__lt=1)
-    bf = Item.objects.filter(category='BF')
-    cr = Item.objects.filter(category='CR')
-    ln = Item.objects.filter(category='LN')
-    sk = Item.objects.filter(category='SK')
-    dr = Item.objects.filter(category='DR')
-    ds = Item.objects.filter(category='DS')
+    bf = Item.objects.filter(category='BF',quantity__gt=0)
+    cr = Item.objects.filter(category='CR',quantity__gt=0)
+    ln = Item.objects.filter(category='LN',quantity__gt=0)
+    sk = Item.objects.filter(category='SK',quantity__gt=0)
+    dr = Item.objects.filter(category='DR',quantity__gt=0)
+    ds = Item.objects.filter(category='DS',quantity__gt=0)
 
     context = {
         "items_in_stock":items_in_stock,

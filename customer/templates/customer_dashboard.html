@@ -263,8 +263,9 @@
     </div>
 
     <!-- Segment 3: Item Menu -->
-    <h2 class="my-4">Item Menu</h2>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+    <h2 class="my-4">Currently Out of Stock</h2>
+     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% comment %}
         {% for item in items_in_stock %}
         <div class="col">
             <div class="card item-card">
@@ -279,7 +280,7 @@
                 </div>
             </div>
         </div>
-        {% endfor %}
+        {% endfor %} {% endcomment %}
         {% for item in items_out_of_stock %}
         <div class="col">
             <div class="card disabled-card item-card">
@@ -290,10 +291,10 @@
 
                     <div class="out-of-stock-message">Out of Stock</div>
 
-                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                    {% comment %} <form action="{% url 'add_to_cart' item.item_id %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                    </form>
+                    </form> {% endcomment %}
                 </div>
             </div>
         </div>
