@@ -82,8 +82,8 @@
 {% block content %}
 
 <div class="container mt-4">
-    <!-- Segment 1: Advertisement -->
-    <div id="advertisementCarousel" class="carousel slide mb-4">
+
+    <div id="advertisementCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="5000">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="{% static 'images/advertisement1.png' %}" alt="Advertisement 1">
@@ -106,7 +106,7 @@
     </div>
 
     <!-- Segment 2: Frequently Ordered Items -->
-    <h2 class="mb-4">Frequently Ordered Items</h2>
+    {% comment %} <h2 class="mb-4">Frequently Ordered Items</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
         <!-- Item 1 -->
         {% for item in items %}
@@ -125,7 +125,8 @@
             </div>
         </div>
         {% endfor %}
-    </div>
+    </div> {% endcomment %}
+
     <!-- Segment 3: Item Menu -->
     <h2 class="my-4">Item Menu</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
