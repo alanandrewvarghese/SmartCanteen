@@ -34,6 +34,11 @@
     font-size: 1rem;
     margin: 5px;
 }
+
+.disabled-card {
+    pointer-events: none; /* Prevents any interaction */
+    opacity: 0.6; /* Makes it look disabled */
+}
 {%endblock style%}
 
 {% block navlinks %}
@@ -67,7 +72,7 @@
 {% endblock navlinks %}
 
 
-{% block messages %}
+{% comment %} {% block messages %}
 {% for message in messages %}
 
 <div class="alert alert-info small-alert alert-dismissible fade show" role="alert">
@@ -76,7 +81,7 @@
 </div>
 
 {% endfor %}
-{% endblock messages %}
+{% endblock messages %} {% endcomment %}
 
 
 {% block content %}
@@ -135,25 +140,77 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
         {% for item in items %}
         <div class="col">
-            <div class="card item-card">
-                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="Item 1">
+            <div class="card item-card disabled-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
                 <div class="card-body">
-                    <h5 class="card-title">{{item.item_name}} </h5>
+                    <h5 class="card-title">{{item.item_name}}</h5>
                     <p class="card-text">&#8377; {{item.price}}</p>
                     
                     <form action="{% url 'add_to_cart' item.item_id %}" method="post">
                         {% csrf_token %}
-                        <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
                     </form>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
+    
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <!-- Message will be updated dynamically here -->
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    
 </div><br>
 
 {% endblock content %}
 
 {% block script %}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent default form submission
+            const form = this.closest('form');  // Get the form element
+            const actionUrl = form.action;
+
+            fetch(actionUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': form.querySelector('input[name="csrfmiddlewaretoken"]').value
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showToast(data.message);  // Show toast message on success
+                } else {
+                    showToast('Error adding item to cart.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('An error occurred.');
+            });
+        });
+    });
+
+    // Function to display the toast notification
+    function showToast(message) {
+        const toastContainer = document.querySelector('#cartToast .toast-body');
+        toastContainer.innerHTML = message;
+
+        const toastEl = document.getElementById('cartToast');
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    }
+});
+
 
 {% endblock script %}

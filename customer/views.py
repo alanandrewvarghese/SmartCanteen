@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from common.decorators import *
+from django.http import JsonResponse
 from django.contrib import messages
 from common.models import Item, Cart, CartItem, Order, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
@@ -33,27 +34,35 @@ def view_cart(request):
 def add_to_cart(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
-    try:
-        if not hasattr(request.user, 'customer'):
-            raise ValueError("No customer associated with the user.")
+    if request.method == 'POST':
+        try:
+            if not hasattr(request.user, 'customer'):
+                raise ValueError("No customer associated with the user.")
 
-        cart, created = Cart.objects.get_or_create(customer=request.user.customer)
-        cart_item, created = CartItem.objects.get_or_create(cart=cart, item=item)
+            cart, created = Cart.objects.get_or_create(customer=request.user.customer)
+            cart_item, created = CartItem.objects.get_or_create(cart=cart, item=item)
 
-        if not created:
-            cart_item.quantity += 1
-        else:
-            cart_item.quantity = 1
+            if not created:
+                cart_item.quantity += 1
+            else:
+                cart_item.quantity = 1
 
-        if cart_item.quantity is None or cart_item.quantity <= 0:
-            raise ValueError("Quantity is invalid before saving.")
+            if cart_item.quantity is None or cart_item.quantity <= 0:
+                raise ValueError("Quantity is invalid before saving.")
 
-        cart_item.save()
-        messages.success(request, f"{item.item_name} added to cart successfully!")
-    except Exception as e:
-        pass
-    
+            cart_item.save()
+            return JsonResponse({
+                'status': 'success',
+                'message': f"{item.item_name} added to cart successfully!"
+            })
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'An error occurred while adding the item to the cart.'
+            })
+
     return redirect('customer_dashboard')
+
 
 
 @customer_required
