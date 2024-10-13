@@ -174,7 +174,7 @@ body {
                                 <td>{{ order.order_id }}</td>
                                 <td>{{ order.customer.name }}</td>
                                 <td >
-                                        {% for item in order.order_items.all %}
+                                        {% for item in order.items.all %}
                                         {{ item.item.item_name }} ({{ item.quantity }})
                                         {% endfor %}
                                 </td>
