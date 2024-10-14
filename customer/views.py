@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.contrib import messages
 from common.models import Item, Cart, CartItem, Order, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
+from .forms import ComplaintForm
+
 
 # Create your views here.
 
@@ -168,4 +170,21 @@ def khattabook(request):
 
 @customer_required
 def raise_issue(request):
-    return render(request, 'raise_issue.html')
+    initial_data = {'email': request.user.customer.email,'name':request.user.customer.name}  # Prefill email
+    if request.method == 'POST':
+        form = ComplaintForm(request.POST, initial=initial_data)
+        if form.is_valid():
+            complaint =form.save(commit = False)
+            complaint.user = request.user.customer
+            complaint.save()
+            # Handle the complaint (e.g., save to the database)
+            messages.success(request, 'Your complaint has been submitted!')
+            return redirect('customer_dashboard')
+    else:
+        form = ComplaintForm(initial=initial_data)
+
+    context = {
+        'form':form
+    }
+
+    return render(request, 'raise_issue.html',context)
