@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}KhattaBook{% endblock title %}
+{% block title %}Raise Issue{% endblock title %}
 
 {% block style %}
 
@@ -67,8 +67,10 @@ body {
 
 <div class="container container-spl">
     <h1 class="text-center mb-4">Submit Your Complaint</h1>
-    <form>
-        <div class="mb-3">
+    <form action = "{% url "raise_issue"%}" method="post">
+       {% csrf_token %}
+       {{form.as_p}}
+        {% comment %} <div class="mb-3">
             <label for="name" class="form-label">Your Name</label>
             <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
         </div>
@@ -79,7 +81,7 @@ body {
         <div class="mb-3">
             <label for="complaint" class="form-label">Complaint</label>
             <textarea class="form-control" id="complaint" rows="3" placeholder="Describe your complaint here..." required></textarea>
-        </div>
+        </div> {% endcomment %}
         <button type="submit" class="btn btn-primary w-100">Submit Complaint</button>
     </form>
     <br>
@@ -98,7 +100,6 @@ body {
     </div> 
     {% endcomment %}
 </div>
-
 {% endblock content %}
 
 {% block script %}{% endblock script %}
