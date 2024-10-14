@@ -63,6 +63,7 @@ class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='orders')
     ordered_at = models.DateTimeField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=8,decimal_places=2, null=True)
     payment_status = models.CharField(max_length=10, default="failed")
 
     class Meta:

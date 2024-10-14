@@ -140,6 +140,16 @@ def place_order(request):
         ]
         OrderItem.objects.bulk_create(order_items)
 
+        # Calculate the total amount for the order
+        total_amount = sum(
+            order_item.quantity * order_item.item.price 
+            for order_item in order.items.all()
+        )
+
+        # Update the total_amount for the order
+        order.total_amount = total_amount
+        order.save()
+
         # Clear the cart after placing the order
         cart.cart_items.all().delete()
 
