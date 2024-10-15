@@ -165,6 +165,7 @@ body {
                                 <th>Order ID</th>
                                 <th>Customer</th>
                                 <th>Items</th>
+                                <th>Ordered At</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -178,6 +179,7 @@ body {
                                         {{ item.item.item_name }} ({{ item.quantity }})
                                         {% endfor %}
                                 </td>
+                                <td>{{order.ordered_at}}</td>
                                 <td>&#8377; {{ order.total_price|default:0 }}</td>
                             </tr>
                             {% endfor %}
