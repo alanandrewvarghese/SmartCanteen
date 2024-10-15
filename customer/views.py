@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from common.decorators import *
 from django.http import JsonResponse
 from django.contrib import messages
-from common.models import Item, Cart, CartItem, Order, OrderItem
+from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
+
+
 
 
 # Create your views here.
@@ -188,3 +190,9 @@ def raise_issue(request):
     }
 
     return render(request, 'raise_issue.html',context)
+
+
+
+
+
+

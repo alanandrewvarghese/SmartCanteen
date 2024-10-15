@@ -4,7 +4,7 @@ from django.db.models import Sum, Count, F
 from django.db.models.functions import Coalesce
 from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
 from common.forms import CreateUserForm
-from common.models import Item, Order, OrderItem,Customer,Staff
+from common.models import Item, Order, OrderItem,Customer,Staff,Complaint
 
 # Create your views here.
 
@@ -159,6 +159,10 @@ def manage_accounts(request):
 
 @staff_required
 def manage_issues(request):
-    return render(request, 'manage_issues.html')
+    complaints=Complaint.objects.all()
+    context={
+        "complaints": complaints
+    }
+    return render(request, 'manage_issues.html', context)
 
 
