@@ -148,6 +148,27 @@
         {% endfor %}
     </div> {% endcomment %}
 
+    {% if suggested_items%}
+    <h2 class="my-4">Suggested Items</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        {% for item in suggested_items %}
+        <div class="col">
+            <div class="card item-card">
+                <img src="{{item.item_image.url}}" class="card-img-top item-photo" alt="{{item.item_name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.item_name}}</h5>
+                    <p class="card-text">&#8377; {{item.price}}</p>
+                    <form action="{% url 'add_to_cart' item.item_id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <h2 class="my-4">Breakfast</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
         {% for item in bf %}

@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from common.decorators import *
 from django.http import JsonResponse
 from django.contrib import messages
-from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint
+from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
+from customer.recommendation_system import get_customer_suggestions
 
 
 
@@ -21,6 +22,13 @@ def customer_dashboard(request):
     sk = Item.objects.filter(category='SK',quantity__gt=0)
     dr = Item.objects.filter(category='DR',quantity__gt=0)
     ds = Item.objects.filter(category='DS',quantity__gt=0)
+    customer_id=request.user.customer.id
+
+    try:
+        suggested_items = get_customer_suggestions(customer_id)
+    except Exception as e:
+        suggested_items = ''
+        print(f"Error: {e}")
 
     context = {
         "items_in_stock":items_in_stock,
@@ -31,6 +39,7 @@ def customer_dashboard(request):
         "sk":sk,
         "dr":dr,
         "ds":ds,
+        "suggested_items": suggested_items
     }
     return render(request, 'customer_dashboard.html', context)
 
