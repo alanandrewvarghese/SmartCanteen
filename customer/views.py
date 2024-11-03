@@ -5,10 +5,7 @@ from django.contrib import messages
 from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
-from customer.recommendation_system import get_customer_suggestions
-
-
-
+from customer.recommendation_system import generate_recommendations
 
 # Create your views here.
 
@@ -25,7 +22,8 @@ def customer_dashboard(request):
     customer_id=request.user.customer.id
 
     try:
-        suggested_items = get_customer_suggestions(customer_id)
+        suggested_item_ids = generate_recommendations(customer_id)
+        suggested_items = Item.objects.filter(item_id__in=suggested_item_ids)
     except Exception as e:
         suggested_items = ''
         print(f"Error: {e}")
