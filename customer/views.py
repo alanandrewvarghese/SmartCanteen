@@ -23,7 +23,7 @@ def customer_dashboard(request):
 
     try:
         suggested_item_ids = generate_recommendations(customer_id)
-        suggested_items = Item.objects.filter(item_id__in=suggested_item_ids)
+        suggested_items = Item.objects.filter(item_id__in=suggested_item_ids, quantity__gt=0)
     except Exception as e:
         suggested_items = ''
         print(f"Error: {e}")
