@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from common.decorators import *
 from django.http import JsonResponse
 from django.contrib import messages
-from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order
+from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order,Notification
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
 from customer.recommendation_system import generate_recommendations
@@ -107,7 +107,10 @@ def delete_from_cart(request, item_id):
 
 @customer_required
 def customer_notifications(request):
-    return render(request, 'customer_notifications.html')
+    user_notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'customer_notifications.html',{
+        'notifications':user_notifications
+    })
 
 @customer_required
 def view_orders(request):
