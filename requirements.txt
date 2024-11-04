@@ -1,0 +1,9 @@
+Django
+colorama>=0.4.6
+mysql
+mysql-connector
+mysql-connector-python
+pillow
+mlxtend
+pandas
+ipython
