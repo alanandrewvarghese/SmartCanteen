@@ -57,41 +57,16 @@
 <div class="container mt-5">
     <h2 class="mb-4">Notifications</h2>
     <div class="list-group">
+        {% for notification in notifications %}
         <a href="#" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Order Ready for Pickup</h5>
-                <small>5 mins ago</small>
+                <h5 class="mb-1">{{ notification.message}}</h5>
+                <small>{{notification.created_at|timesince}} ago</small>
             </div>
-            <p class="mb-1">Your order #1234 is ready for pickup at the counter.</p>
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Payment Successful</h5>
-                <small>15 mins ago</small>
-            </div>
-            <p class="mb-1">Payment for order #1233 has been successfully processed.</p>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">New Menu Items Available</h5>
-                <small>1 hour ago</small>
-            </div>
-            <p class="mb-1">Check out the new menu items added to the Smart Canteen.</p>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Order Delivered</h5>
-                <small>2 hours ago</small>
-            </div>
-            <p class="mb-1">Your order #1232 has been delivered to your table.</p>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Order #1231 Canceled</h5>
-                <small>Yesterday</small>
-            </div>
-            <p class="mb-1">Your order has been canceled due to unavailability of items.</p>
-        </a>
+        {% empty %}
+        <p> No notifications available. </p>
+        {% endfor %}
     </div>
 </div>
 
