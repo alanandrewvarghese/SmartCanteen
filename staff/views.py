@@ -4,7 +4,7 @@ from django.db.models import Sum, Count, F
 from django.db.models.functions import Coalesce
 from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
 from common.forms import CreateUserForm
-from common.models import Item, Order, OrderItem,Customer,Staff,Complaint
+from common.models import Item, Order, OrderItem,Customer,Staff,Complaint,Notification
 
 # Create your views here.
 
@@ -138,6 +138,12 @@ def update_stock(request):
 
 @staff_required
 def staff_notification(request):
+    staff_notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'staff_notification.html',{
+        'notifications':staff_notifications
+    })
+
+
     return render(request, 'staff_notification.html')
 
 @staff_required
