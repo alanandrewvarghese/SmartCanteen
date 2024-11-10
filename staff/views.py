@@ -5,6 +5,8 @@ from django.db.models.functions import Coalesce
 from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
 from common.forms import CreateUserForm
 from common.models import Item, Order, OrderItem,Customer,Staff,Complaint,Notification
+from django.http import JsonResponse
+from django.utils import timezone
 
 # Create your views here.
 
@@ -21,13 +23,29 @@ def staff_dashboard(request):
         'total_revenue': orders.aggregate(total_revenue=Sum('total_price'))['total_revenue'] or 0,
         'successful_orders': Order.objects.filter(payment_status='success').count()
     }
-
+    
     context = {
         'orders': orders,
         'data': dashboard_data
     }
     
     return render(request, 'staff_dashboard.html', context)
+
+def chart_data(request):
+
+    labels_lc = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']  # Update based on your data
+    current_year = timezone.now().year
+    # data = [Order.objects.filter(ordered_at__year=current_year, ordered_at__month=i).count() for i in range(1, 13)]
+    data_lc=[0, 0, 0, 0, 0, 0, 0, 0, 378, 122, 14, 0]
+
+    labels_cc = list(Item.objects.values_list('item_name',flat=True))
+    
+    data_cc = [18, 30, 69, 76, 11, 90, 93, 95, 66, 73, 5, 48, 82, 66, 64, 72, 80, 45, 54, 45, 54, 35, 83, 73, 17, 37, 73, 87, 70, 62]
+
+
+    return JsonResponse({'labels_lc': labels_lc,'data_lc':data_lc,'labels_cc':labels_cc,'data_cc':data_cc})
+
+
 @staff_required
 def manage_item(request):
     items = Item.objects.all()

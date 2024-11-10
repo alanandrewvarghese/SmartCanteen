@@ -67,6 +67,17 @@ class Order(models.Model):
     total_amount = models.DecimalField(max_digits=8,decimal_places=2, null=True)
     payment_status = models.CharField(max_length=10, default="failed")
 
+    def save(self, *args, **kwargs):
+        # Ensure the ordered_at is timezone-aware
+        if self.ordered_at is not None and timezone.is_naive(self.ordered_at):
+            self.ordered_at = timezone.make_aware(self.ordered_at)
+
+        # Optional: Prevent future dates
+        if self.ordered_at and self.ordered_at > timezone.now():
+            raise ValueError("The ordered date cannot be in the future.")
+
+        super().save(*args, **kwargs)
+
     class Meta:
         ordering = ['-ordered_at']
 

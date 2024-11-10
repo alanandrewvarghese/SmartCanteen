@@ -15,6 +15,7 @@ urlpatterns = [
     path('manage_accounts/',views.manage_accounts,name='manage_accounts'),
     path('manage_issues/',views.manage_issues,name='manage_issues'),
     path('item/update/<int:item_id>',views.update_item,name='update_item'),
+    path('api/chart_data/',views.chart_data,name='chart_data')
 
 
 

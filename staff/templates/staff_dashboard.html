@@ -140,7 +140,7 @@ body {
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Orders Over Time</h5>
-                        <canvas id="ordersChart"></canvas>
+                        <canvas id="ordersChart" width="400" height="200"></canvas>
                     </div>
                 </div>
             </div>
@@ -192,69 +192,80 @@ body {
     </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 {% endblock content %}
 
 {% block script %}
 
-// Orders Over Time Chart
-var ordersCtx = document.getElementById('ordersChart').getContext('2d');
-var ordersChart = new Chart(ordersCtx, {
-    type: 'line',
-    data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [{
-            label: 'Orders',
-            data: [65, 59, 80, 81, 56, 55],
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+$(document).ready(function() {
+    $.ajax({
+        url: '/api/chart_data/',  // The URL of the Django view
+        method: 'GET',
+        success: function(response) {
+            // Create the chart with the dynamic data
+            var ordersCtx = document.getElementById('ordersChart').getContext('2d');
+            var ordersChart = new Chart(ordersCtx, {
+                type: 'line',
+                data: {
+                    labels: response.labels_lc,  // Use the labels from the response
+                    datasets: [{
+                        label: 'Orders',
+                        data: response.data_lc,  // Use the data from the response
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Popular Menu Items Chart
+            var menuItemsCtx = document.getElementById('menuItemsChart').getContext('2d');
+            var menuItemsChart = new Chart(menuItemsCtx, {
+                type: 'bar',
+                data: {
+                    labels: response.labels_cc,
+                    datasets: [{
+                        label: 'Orders',
+                        data: response.data_cc,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        },
+        error: function(error) {
+            console.error('Error fetching order data:', error);
         }
-    }
+    });
 });
 
-// Popular Menu Items Chart
-var menuItemsCtx = document.getElementById('menuItemsChart').getContext('2d');
-var menuItemsChart = new Chart(menuItemsCtx, {
-    type: 'bar',
-    data: {
-        labels: ['Burger', 'Pizza', 'Salad', 'Pasta', 'Sushi'],
-        datasets: [{
-            label: 'Orders',
-            data: [12, 19, 3, 5, 2],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+{% comment %}  {% endcomment %}
 
 {% endblock script %}
