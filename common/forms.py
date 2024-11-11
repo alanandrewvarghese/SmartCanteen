@@ -36,15 +36,15 @@ class CreateCustomerForm(ModelForm):
         widget = forms.EmailInput(attrs={'class': 'form-control','placeholder':'Enter your Email id'}),
     )
 
-    has_khatta = forms.BooleanField(
-        label ='KhattaBook Required',
-        widget = forms.CheckboxInput(attrs={'class': 'form-check-input has-khatta'}),
-        required=False
-    )
+    # has_khatta = forms.BooleanField(
+    #     label ='KhattaBook Required',
+    #     widget = forms.CheckboxInput(attrs={'class': 'form-check-input has-khatta'}),
+    #     required=False
+    # )
 
     class Meta:
         model = Customer
-        fields = ['name', 'email', 'has_khatta']
+        fields = ['name', 'email']
 
 
 class AppLoginForm(forms.Form):

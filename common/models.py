@@ -13,7 +13,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(max_length=100,unique=True)
     name = models.CharField(max_length=50)
-    has_khatta = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Customer: {self.name} ({self.email})"

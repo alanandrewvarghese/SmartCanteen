@@ -29,7 +29,8 @@ def customer_registration(request):
             if userform.is_valid() and customerform.is_valid():
                 user=userform.save()
                 customer=customerform.save(commit=False)
-                customer.user=user 
+                customer.user=user
+                customer.is_active=True 
                 customer.save()
                 return redirect('app_login')
         context={
