@@ -2,10 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from common.decorators import *
 from django.http import JsonResponse
 from django.contrib import messages
-from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order,Notification
+from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order,Notification,KhattaBook
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
 from customer.recommendation_system import generate_recommendations
+from django.db.models import Sum
 
 # Create your views here.
 
@@ -164,6 +165,16 @@ def place_order(request):
         order.total_amount = total_amount
         order.save()
 
+        khattabook = KhattaBook.objects.create(
+            user=customer,
+            pending_payment = total_amount,
+            status = "Unpaid",
+            order = order
+        )
+
+        khattabook.save()
+
+
         # Clear the cart after placing the order
         cart.cart_items.all().delete()
 
@@ -178,7 +189,26 @@ def place_order(request):
 
 @customer_required
 def khattabook(request):
-    return render(request, 'khattabook.html')
+    khattabook = KhattaBook.objects.all()
+    total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total']
+    context = {
+        'khattabook':khattabook,
+        'total_due':total_due
+    }
+    return render(request, 'khattabook.html', context)
+
+@customer_required
+def khattabook_payment(request):
+    try:
+        KhattaBook.objects.filter(status="Unpaid").update(
+            pending_payment=0,
+            status="Paid"
+        )
+        
+    except Exception as e:
+        print(f"Error updating khattabook entries: {str(e)}")
+        
+    return redirect('khattabook')
 
 @customer_required
 def raise_issue(request):

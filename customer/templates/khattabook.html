@@ -47,9 +47,13 @@
             Payment
         </div>
         <div class="card-body">
-            <h5 class="card-title">Total Due: ₹500</h5>
+            {% if total_due %}
+            <h5 class="card-title">Total Due: ₹{{ total_due }}</h5>
+            {% else %}
+            <h5 class="card-title">Total Due: ₹0</h5>
+            {% endif %}
             <p class="card-text">Please click the button below to make the payment for your due balance.</p>
-            <a href="#" class="btn btn-success">Pay Now</a>
+            <a href="{% url 'khattabook_payment' %}" class="btn btn-success">Pay Now</a>
         </div>
     </div>
 
@@ -65,30 +69,19 @@
                         <tr>
                             <th>Order ID</th>
                             <th>Order Date</th>
-                            <th>Amount Paid (₹)</th>
+                            <th>Total Amount(₹)</th>
+                            <th>Payment Status</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for kb in khattabook %}
                         <tr>
-                            <td><a href="#">1234</a></td>
-                            <td>12-Sep-2024</td>
-                            <td>150</td>
+                            <td><a href="#">{{ kb.order.order_id }}</a></td>
+                            <td>{{ kb.order.ordered_at }}</td>
+                            <td>{{ kb.order.total_amount }}</td>
+                            <td>{{ kb.status }}</td>
                         </tr>
-                        <tr>
-                            <td><a href="#">1233</a></td>
-                            <td>10-Sep-2024</td>
-                            <td>200</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">1232</a></td>
-                            <td>08-Sep-2024</td>
-                            <td>180</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">1231</a></td>
-                            <td>06-Sep-2024</td>
-                            <td>120</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

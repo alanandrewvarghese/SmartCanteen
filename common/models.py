@@ -97,7 +97,7 @@ class OrderItem(models.Model):
 
 
 class KhattaBook(models.Model):
-    user = models.OneToOneField(Customer,on_delete=models.CASCADE,null=True,blank=True)
+    user = models.ForeignKey(Customer,on_delete=models.CASCADE,null=True,blank=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE ,related_name='khattabook_order')
     pending_payment = models.DecimalField(max_digits=8,decimal_places=2)
     status = models.CharField(max_length=20,default='unpaid')
