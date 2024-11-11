@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from common.decorators import *
 from django.http import JsonResponse
 from django.contrib import messages
-from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order,Notification,KhattaBook
+from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order,Notification,KhattaBook, Customer
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
 from customer.recommendation_system import generate_recommendations
@@ -50,10 +50,13 @@ def view_cart(request):
     except ObjectDoesNotExist:
         cart_items = []  
     
+    is_active=request.user.customer.is_active
+    
     total = sum(item.item.price * item.quantity for item in cart_items)
     context = {
         'cart_items': cart_items,
-        'total': total
+        'total': total,
+        'is_active': is_active
     }
     return render(request, 'view_cart.html', context)
 
@@ -141,50 +144,56 @@ def place_order(request):
         messages.error(request, 'Your cart is empty.')
         return redirect('view_cart')  # Redirect to the cart view
 
-    try:
-        # Create an order and assign the customer
-        order = Order.objects.create(customer=customer)
+    # is_active = Customer.objects.get(pk=customer).is_active
+    is_active=customer.is_active
 
-        # Create OrderItems from the cart
-        order_items = [
-            OrderItem(
-                order=order,
-                item=cart_item.item,
-                quantity=cart_item.quantity
-            ) for cart_item in cart.cart_items.all()
-        ]
-        OrderItem.objects.bulk_create(order_items)
+    if is_active:
+        try:
+            # Create an order and assign the customer
+            order = Order.objects.create(customer=customer)
 
-        # Calculate the total amount for the order
-        total_amount = sum(
-            order_item.quantity * order_item.item.price 
-            for order_item in order.items.all()
-        )
+            # Create OrderItems from the cart
+            order_items = [
+                OrderItem(
+                    order=order,
+                    item=cart_item.item,
+                    quantity=cart_item.quantity
+                ) for cart_item in cart.cart_items.all()
+            ]
+            OrderItem.objects.bulk_create(order_items)
 
-        # Update the total_amount for the order
-        order.total_amount = total_amount
-        order.save()
+            # Calculate the total amount for the order
+            total_amount = sum(
+                order_item.quantity * order_item.item.price 
+                for order_item in order.items.all()
+            )
 
-        khattabook = KhattaBook.objects.create(
-            user=customer,
-            pending_payment = total_amount,
-            status = "Unpaid",
-            order = order
-        )
+            # Update the total_amount for the order
+            order.total_amount = total_amount
+            order.save()
 
-        khattabook.save()
+            khattabook = KhattaBook.objects.create(
+                user=customer,
+                pending_payment = total_amount,
+                status = "Unpaid",
+                order = order
+            )
+
+            khattabook.save()
 
 
-        # Clear the cart after placing the order
-        cart.cart_items.all().delete()
+            # Clear the cart after placing the order
+            cart.cart_items.all().delete()
 
-        messages.success(request, 'Your order has been placed successfully!')
-        return redirect('view_orders')  # Redirect to view the orders
+            messages.success(request, 'Your order has been placed successfully!')
+            return redirect('view_orders')  # Redirect to view the orders
 
-    except Exception as e:
-        # Log the error (in a production environment)
-        print(f"Error placing order: {str(e)}")
-        messages.error(request, 'An error occurred while placing your order. Please try again.')
+        except Exception as e:
+            # Log the error (in a production environment)
+            print(f"Error placing order: {str(e)}")
+            messages.error(request, 'An error occurred while placing your order. Please try again.')
+            return redirect('view_cart')
+    else:
         return redirect('view_cart')
 
 @customer_required
@@ -207,7 +216,7 @@ def khattabook_payment(request):
         
     except Exception as e:
         print(f"Error updating khattabook entries: {str(e)}")
-        
+
     return redirect('khattabook')
 
 @customer_required
