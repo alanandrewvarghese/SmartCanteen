@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Home{% endblock title %}
 
 {% block style %}
@@ -94,6 +96,37 @@ body {
     color: #28a745;
     font-weight: 500;
 }
+.py-6 {
+    margin:3.0rem 3.0rem;
+    text-align:justify;
+    font-size: 1.1rem;
+    font-weight:450;
+    color:#000000;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    padding: 50px 20px;
+}
+.contact-info{
+    border-radius:25px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    padding:20px;
+}
+
+/* Custom styling for the About Us image and text */
+.about-us-image {
+    width: 62%;  /* Ensure the image takes up the full width of its container */
+    height: 200px; /* Maintain the aspect ratio */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    spacing:10px;
+}
+
+.about-us-text {
+    padding-left: 3px; /* Adds space between the image and the text */
+    line-height: 1.6; /* Makes the text more readable */
+    color: #333; /* Darker text color for contrast */
+}
+
 
 {% endblock style %}
 
@@ -157,89 +190,110 @@ body {
     <div class="container">
         <h2 class="section-title">Today's Specials</h2>
         <div class="row g-4">
-            <!-- Special Item Card (Repeat as needed) -->
             <div class="col-lg-4 col-md-6">
                 <div class="item-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Special Item" class="item-image">
+                    <img src="{% static '/images/cakes.png' %}" alt="Special Item" class="item-image">
                     <div class="item-details">
-                        <h3 class="item-name">Grilled Chicken Sandwich</h3>
-                        <p class="item-price">$8.99</p>
+                        <h3 class="item-name">Cakes</h3>
+                        
                     </div>
                 </div>
             </div>
-            <!-- End of Special Item Card -->
-
             <div class="col-lg-4 col-md-6">
                 <div class="item-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Special Item" class="item-image">
+                    <img src="{% static '/images/white_forest.png' %}" alt="Special Item" class="item-image">
                     <div class="item-details">
-                        <h3 class="item-name">Veggie Delight Wrap</h3>
-                        <p class="item-price">$7.49</p>
+                        <h3 class="item-name">White Forest</h3>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6">
                 <div class="item-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Special Item" class="item-image">
+                    <img src="{% static '/images/ice_cream.png' %}" alt="Special Item" class="item-image">
                     <div class="item-details">
-                        <h3 class="item-name">Spicy Beef Burger</h3>
-                        <p class="item-price">$9.99</p>
+                        <h3 class="item-name">Ice Cream</h3>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 
-<!-- Combos Section -->
+<section class="py-6">
+    <h2 class="section-title text-center">About Us</h2>
+    <div class="row align-items-center">
+        <!-- Image on the left side -->
+        <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-center">
+            <img src="{% static '/images/about.png' %}" alt="About Us" class="img-fluid about-us-image mb-3">
+            <img src="{% static '/images/about2.png' %}" alt="About Us" class="img-fluid about-us-image mb-3">
+            <img src="{% static '/images/about3.png' %}" alt="About Us" class="img-fluid about-us-image">
+        </div>
+
+        <!-- Text content on the right side -->
+        <div class="col-lg-6 col-md-12">
+            <div class="about-us-text">
+                <p>Our Canteen Automation System is designed to elevate the dining experience by combining convenience with advanced features, such as personalized recommendations and integrated financial tracking. Through the use of personalized recommendations, our system analyzes customer preferences and purchase history to suggest meals that match individual tastes and dietary preferences, ensuring a customized and enjoyable experience every time. This feature not only helps customers discover new menu items they’re likely to enjoy but also makes ordering faster and easier.</p>
+
+                <p>Additionally, our system integrates a “KhataBook” feature, which allows for easy credit management and payment tracking within the canteen. Customers can make purchases on credit, and the system records these transactions accurately, making it easy to review outstanding balances and settle payments securely at a convenient time. This feature is particularly helpful for regular customers, allowing them to manage their canteen expenses without needing cash on hand for each transaction.</p>
+
+                <p>These advanced features make our Canteen Automation System a comprehensive solution that not only simplifies the ordering and payment process but also offers a personalized touch and flexible financial management. This approach enhances customer convenience, strengthens customer loyalty, and streamlines canteen operations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Information Section -->
 <section class="py-5 bg-light">
     <div class="container">
-        <h2 class="section-title">Combo Deals</h2>
-        <div class="row g-4">
-            <!-- Combo Item Card (Repeat as needed) -->
-            <div class="col-lg-3 col-md-6">
-                <div class="item-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
-                    <div class="item-details">
-                        <h3 class="item-name">Burger Combo</h3>
-                        <p class="item-price">$12.99</p>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Combo Item Card -->
-
-            <div class="col-lg-3 col-md-6">
-                <div class="item-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
-                    <div class="item-details">
-                        <h3 class="item-name">Pizza Combo</h3>
-                        <p class="item-price">$15.49</p>
-                    </div>
+        <h2 class="section-title text-center">Contact Information</h2>
+        <div class="row text-center">
+            <!-- Contact Details -->
+            <div class="col-md-4 mb-4">
+                <div class="contact-info">
+                    <i class="bi bi-geo-alt-fill" style="font-size: 3rem; color: #17a2b8;"></i>
+                    <h5 class="mt-3">Address</h5>
+                    <p>123 Smart Canteen , Tech Park, Citytown</p>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6">
-                <div class="item-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
-                    <div class="item-details">
-                        <h3 class="item-name">Pasta Combo</h3>
-                        <p class="item-price">$11.99</p>
-                    </div>
+            <div class="col-md-4 mb-4">
+                <div class="contact-info">
+                    <i class="bi bi-telephone-fill" style="font-size: 3rem; color: #17a2b8;"></i>
+                    <h5 class="mt-3">Phone</h5>
+                    <p>+91 9945 456 789</p>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6">
-                <div class="item-card">
-                    <img src="https://via.placeholder.com/400x200" alt="Combo Item" class="item-image">
-                    <div class="item-details">
-                        <h3 class="item-name">Salad Combo</h3>
-                        <p class="item-price">$9.99</p>
-                    </div>
+            <div class="col-md-4 mb-4">
+                <div class="contact-info">
+                    <i class="bi bi-envelope-fill" style="font-size: 3rem; color: #17a2b8;"></i>
+                    <h5 class="mt-3">Email</h5>
+                    <p>smart@canteensystem.com</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Copyright Section -->
+{% comment %} <section class="py-4 bg-primary text-white text-center">
+    <div class="container">
+        <p class="mb-0">&copy; 2024 Smart Canteen System. All Rights Reserved.</p>
+        <p class="mb-0">Designed and Developed by Your Company Name</p>
+    </div>
+</section> {% endcomment %}
+
+<!-- Simple Footer -->
+ <!-- Social Media Follow Us Section on White Background -->
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 SmartCanteen . All rights reserved.</p>
+    </div>
+  </footer>
+  
+
+
+
 
 {% endblock content %}
