@@ -47,7 +47,7 @@ main {
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
         <p class="text-center mt-3">
-            <a href="#">Forgot your password?</a>
+            <a href="{% url "password_reset" %}">Forgot your password?</a>
         </p>
         <p class="text-center mt-2">
             Don't have an account? <a href="{% url 'customer_registration' %}">Sign up</a>

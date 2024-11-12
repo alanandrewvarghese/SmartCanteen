@@ -56,3 +56,5 @@ class AppLoginForm(forms.Form):
         label='Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'}),
     )
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(label="Email", max_length=254)

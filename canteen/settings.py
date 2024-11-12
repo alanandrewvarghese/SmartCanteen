@@ -111,6 +111,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'webdev.rajkumar@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'ryuceemqyvatgrrz'  # App password (see details below)
+DEFAULT_FROM_EMAIL = 'smartcanteen@gmail.com'  # The email address to use as the sender
+
+
 # Load environment-specific settings from local_settings.py if it exists
 try:
     from .local_settings import *
