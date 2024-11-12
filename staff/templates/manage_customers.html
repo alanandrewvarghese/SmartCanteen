@@ -69,8 +69,20 @@
                         <p class="card-text"><strong>Customer ID:</strong> {{customer.user.id}}</p>
                         <p class="card-text"><strong>Email:</strong> {{customer.email}}</p> <hr>
                         {% comment %} <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p> {% endcomment %}
-                        <button class="btn btn-warning btn-sm">Disable</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
+
+                        <form action="{% url 'update_customer_status' customer.id %}" method="post">
+                            {% csrf_token %}
+                            {% if customer.is_active %}
+                                <button class="btn btn-warning btn-sm" type="submit">Disable</button>
+                            {% else %}
+                                <button class="btn btn-warning btn-sm" type="submit">Enable</button>
+                            {% endif %}
+                        </form>
+
+                        <form action="{% url 'remove_customers' customer.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>

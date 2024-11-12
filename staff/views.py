@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from common.decorators import *
+from django.contrib.auth.models import User
 from django.db.models import Sum, Count, F
 from django.db.models.functions import Coalesce
 from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
@@ -172,6 +173,31 @@ def manage_customers(request):
         'customers': customers
     }
     return render(request, 'manage_customers.html', context)
+
+@staff_required
+def remove_customers(request,customer_id):
+    try:
+        customer=Customer.objects.get(pk=customer_id)
+        User.objects.filter(customer=customer).delete()
+    except Exception as e:
+        print(f"Error: {e}")
+    
+    return redirect(manage_customers)
+
+@staff_required
+def update_customer_status(request,customer_id):
+    try:
+        customer=Customer.objects.get(pk=customer_id)
+        if customer.is_active:
+            customer.is_active=False
+        else:
+            customer.is_active=True
+        customer.save()
+        
+    except Exception as e:
+        print(f"Error: {e}")
+    
+    return redirect(manage_customers)
 
 @staff_required
 def manage_khattabook(request):

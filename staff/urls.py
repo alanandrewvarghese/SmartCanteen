@@ -15,12 +15,8 @@ urlpatterns = [
     path('manage_accounts/',views.manage_accounts,name='manage_accounts'),
     path('manage_issues/',views.manage_issues,name='manage_issues'),
     path('item/update/<int:item_id>',views.update_item,name='update_item'),
-    path('api/chart_data/',views.chart_data,name='chart_data')
-
-
-
-
-    
-
-    
+    path('api/chart_data/',views.chart_data,name='chart_data'),
+    path('customer/delete/<int:customer_id>/', views.remove_customers, name='remove_customers'),
+    path('customer/update_status/<int:customer_id>/', views.update_customer_status, name='update_customer_status'),
+   
 ]
