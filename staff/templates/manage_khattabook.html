@@ -95,40 +95,21 @@ h2 {
                 <tr>
                     <th scope="col">User ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">KhattaBook Status</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Pending Amount</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Example Row 1 -->
+                {% for KhattaBook in khattabooks %}
                 <tr>
-                    <td>1001</td>
-                    <td>John Doe</td>
-                    <td><span class="status-active">Active</span></td>
-                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
+                    <td>{{KhattaBook.user.id}}</td>
+                    <td>{{KhattaBook.user.name}}</td>
+                    <td>{{KhattaBook.pending_payment}}</td>
                 </tr>
-                <!-- Example Row 2 -->
+                {% empty %}
                 <tr>
-                    <td>1002</td>
-                    <td>Jane Smith</td>
-                    <td><span class="status-inactive">Inactive</span></td>
-                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
+                    <td colspan="4" class="text-center">NO khattabook Entries found</td>
                 </tr>
-                <!-- Example Row 3 -->
-                <tr>
-                    <td>1003</td>
-                    <td>Rahul Kumar</td>
-                    <td><span class="status-active">Active</span></td>
-                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
-                </tr>
-                <!-- Example Row 4 -->
-                <tr>
-                    <td>1004</td>
-                    <td>Sara Khan</td>
-                    <td><span class="status-inactive">Inactive</span></td>
-                    <td><button class="btn btn-khatta btn-sm">View KhattaBook</button></td>
-                </tr>
-                <!-- Add more rows as needed -->
+                {% endfor %}
             </tbody>
         </table>
     </div>
