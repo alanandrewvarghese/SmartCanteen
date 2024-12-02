@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from common.decorators import *
 from django.http import JsonResponse
 from django.contrib import messages
-from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order,Notification,KhattaBook, Customer
+from common.models import Item, Cart, CartItem, Order, OrderItem,Complaint,Order,Notification,KhattaBook, Customer, Staff
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
 from customer.recommendation_system import generate_recommendations
@@ -44,6 +44,19 @@ def customer_dashboard(request):
 
 @customer_required
 def view_cart(request):
+    khattabook = KhattaBook.objects.all()
+    customer = request.user.customer
+    staff=Staff.objects.all()
+
+    total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
+    if (total_due >= 3000 and customer.is_active):
+        for staff_member in staff:
+            Notification.objects.create(
+                user=staff_member.user,
+                message=f"[{customer.name}] has exceeded Khattabook limit. Account has been disabled.",
+            )
+        customer.is_active = False
+        customer.save()
     try:
         cart = Cart.objects.get(customer=request.user.customer)
         cart_items = cart.cart_items.all()
@@ -134,25 +147,20 @@ def view_orders(request):
 
 @customer_required
 def place_order(request):
-    # Get the logged-in customer's profile
     customer = request.user.customer
 
-    # Get the cart for the logged-in customer
     cart = Cart.objects.filter(customer=customer).first()
     
     if not cart or not cart.cart_items.exists():
         messages.error(request, 'Your cart is empty.')
-        return redirect('view_cart')  # Redirect to the cart view
-
-    # is_active = Customer.objects.get(pk=customer).is_active
+        return redirect('view_cart') 
+    
     is_active=customer.is_active
 
     if is_active:
         try:
-            # Create an order and assign the customer
             order = Order.objects.create(customer=customer)
 
-            # Create OrderItems from the cart
             order_items = [
                 OrderItem(
                     order=order,
@@ -162,13 +170,11 @@ def place_order(request):
             ]
             OrderItem.objects.bulk_create(order_items)
 
-            # Calculate the total amount for the order
             total_amount = sum(
                 order_item.quantity * order_item.item.price 
                 for order_item in order.items.all()
             )
 
-            # Update the total_amount for the order
             order.total_amount = total_amount
             order.save()
 
@@ -178,18 +184,13 @@ def place_order(request):
                 status = "Unpaid",
                 order = order
             )
-
             khattabook.save()
 
-
-            # Clear the cart after placing the order
             cart.cart_items.all().delete()
 
             messages.success(request, 'Your order has been placed successfully!')
-            return redirect('view_orders')  # Redirect to view the orders
-
+            return redirect('view_orders')  
         except Exception as e:
-            # Log the error (in a production environment)
             print(f"Error placing order: {str(e)}")
             messages.error(request, 'An error occurred while placing your order. Please try again.')
             return redirect('view_cart')
@@ -199,7 +200,9 @@ def place_order(request):
 @customer_required
 def khattabook(request):
     khattabook = KhattaBook.objects.all()
-    total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total']
+
+    total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
+
     context = {
         'khattabook':khattabook,
         'total_due':total_due
@@ -208,11 +211,14 @@ def khattabook(request):
 
 @customer_required
 def khattabook_payment(request):
+    customer = request.user.customer
     try:
         KhattaBook.objects.filter(status="Unpaid").update(
             pending_payment=0,
             status="Paid"
         )
+        customer.is_active = True
+        customer.save()
         
     except Exception as e:
         print(f"Error updating khattabook entries: {str(e)}")
@@ -221,14 +227,14 @@ def khattabook_payment(request):
 
 @customer_required
 def raise_issue(request):
-    initial_data = {'email': request.user.customer.email,'name':request.user.customer.name}  # Prefill email
+    initial_data = {'email': request.user.customer.email,'name':request.user.customer.name}  
     if request.method == 'POST':
         form = ComplaintForm(request.POST, initial=initial_data)
         if form.is_valid():
             complaint =form.save(commit = False)
             complaint.user = request.user.customer
             complaint.save()
-            # Handle the complaint (e.g., save to the database)
+
             messages.success(request, 'Your complaint has been submitted!')
             return redirect('customer_dashboard')
     else:
