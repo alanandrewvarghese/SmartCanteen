@@ -55,7 +55,6 @@
 
 <div class="container mt-5">
 
-    <!-- Segment 1 - View Cart -->
     <h2>Cart</h2>
     <div class="row mb-3">
         <div class="col-md-8">
@@ -71,9 +70,9 @@
                             <h5 class="card-title">{{item.item.item_name}}</h5>
                             <p class="card-text">Price: ₹<span class="item-price">{{item.item.price}}</span></p>
                             <div class="d-flex align-items-center">
-                                <button class="btn btn-outline-primary btn-sm me-2 decrement">-</button>
-                                <span class="cart-item-quantity">{{item.quantity}}</span>
-                                <button class="btn btn-outline-primary btn-sm ms-2 increment">+</button>
+                                {% comment %} <button class="btn btn-outline-primary btn-sm me-2 decrement">-</button> {% endcomment %}
+                                <span class="cart-item-quantity">Qty: {{item.quantity}}</span>
+                                {% comment %} <button class="btn btn-outline-primary btn-sm ms-2 increment">+</button> {% endcomment %}
 
                                 <form class="ms-auto" action="{% url 'delete_from_cart' item.item_id%}" method="post">
                                     {% csrf_token %}
@@ -93,7 +92,6 @@
         </div>
 
 
-        <!-- Segment 2 - Order Section -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
