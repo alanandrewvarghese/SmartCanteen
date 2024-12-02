@@ -44,9 +44,11 @@ def customer_dashboard(request):
 
 @customer_required
 def view_cart(request):
-    khattabook = KhattaBook.objects.all()
     customer = request.user.customer
+    user=request.user
     staff=Staff.objects.all()
+    khattabook = KhattaBook.objects.filter(user=customer)
+    total_due = khattabook.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
 
     total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
     if (total_due >= 3000 and customer.is_active):
@@ -199,9 +201,9 @@ def place_order(request):
 
 @customer_required
 def khattabook(request):
-    khattabook = KhattaBook.objects.all()
-
-    total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
+    customer = request.user.customer
+    khattabook = KhattaBook.objects.filter(user=customer)
+    total_due = khattabook.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
 
     context = {
         'khattabook':khattabook,
@@ -213,7 +215,7 @@ def khattabook(request):
 def khattabook_payment(request):
     customer = request.user.customer
     try:
-        KhattaBook.objects.filter(status="Unpaid").update(
+        KhattaBook.objects.filter(user=customer,status="Unpaid").update(
             pending_payment=0,
             status="Paid"
         )
@@ -245,9 +247,3 @@ def raise_issue(request):
     }
 
     return render(request, 'raise_issue.html',context)
-
-
-
-
-
-
