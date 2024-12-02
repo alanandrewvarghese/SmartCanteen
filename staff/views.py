@@ -11,12 +11,10 @@ from django.utils import timezone
 from django.views.generic import ListView
 from django.contrib import messages
 
-
 # Create your views here.
 
 @staff_required
 def staff_dashboard(request):
-    # Fetching all orders with related order items and calculating total price for each order
     orders = Order.objects.prefetch_related('items__item').annotate(
         total_price=Sum(F('items__item__price') * F('items__quantity'))
     ).order_by('-order_id')
@@ -37,9 +35,8 @@ def staff_dashboard(request):
 
 def chart_data(request):
 
-    labels_lc = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']  # Update based on your data
+    labels_lc = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     current_year = timezone.now().year
-    # data = [Order.objects.filter(ordered_at__year=current_year, ordered_at__month=i).count() for i in range(1, 13)]
     data_lc=[0, 0, 0, 0, 0, 0, 0, 0, 378, 122, 14, 0]
 
     labels_cc = list(Item.objects.values_list('item_name',flat=True))
@@ -166,8 +163,6 @@ def staff_notification(request):
     })
 
 
-    return render(request, 'staff_notification.html')
-
 @staff_required
 def manage_customers(request):
     customers=Customer.objects.all()
@@ -206,14 +201,22 @@ def update_customer_status(request,customer_id):
 def manage_khattabook(request):
     khattabooks = KhattaBook.objects.select_related('user').all()
     
-    # Pass the data to the template
     return render(request, 'manage_khattabook.html', {
         'khattabooks': khattabooks,
     })
 
 @staff_required
 def manage_accounts(request):
-    return render(request, 'manage_accounts.html')
+    orders = Order.objects.prefetch_related('items__item').annotate(
+        total_price=Sum(F('items__item__price') * F('items__quantity'))
+    ).order_by('-order_id')
+
+    context = {
+        'orders': orders
+    }
+
+
+    return render(request, 'manage_accounts.html', context)
 
 @staff_required
 def manage_issues(request):
