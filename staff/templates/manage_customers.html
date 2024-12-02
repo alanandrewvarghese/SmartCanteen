@@ -68,9 +68,9 @@
                         <h5 class="card-title">{{customer.name}}</h5>
                         <p class="card-text"><strong>Customer ID:</strong> {{customer.user.id}}</p>
                         <p class="card-text"><strong>Email:</strong> {{customer.email}}</p> <hr>
-                        {% comment %} <p class="card-text"><strong>Status:</strong> <span class="badge bg-success">Active</span></p> {% endcomment %}
 
-                        <form action="{% url 'update_customer_status' customer.id %}" method="post">
+                        <div class="d-flex justify-content-start gap-2 align-items-center">
+                            <form action="{% url 'update_customer_status' customer.id %}" method="post">
                             {% csrf_token %}
                             {% if customer.is_active %}
                                 <button class="btn btn-warning btn-sm" type="submit">Disable</button>
@@ -83,6 +83,8 @@
                             {% csrf_token %}
                             <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                         </form>
+                    </div>
+                        
                     </div>
                 </div>
             </div>

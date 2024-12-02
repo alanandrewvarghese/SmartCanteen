@@ -115,7 +115,7 @@ body {
 /* Custom styling for the About Us image and text */
 .about-us-image {
     width: 62%;  /* Ensure the image takes up the full width of its container */
-    height: 200px; /* Maintain the aspect ratio */
+    height: 280px; /* Maintain the aspect ratio */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
     spacing:10px;
@@ -123,6 +123,8 @@ body {
 
 .about-us-text {
     padding-left: 3px; /* Adds space between the image and the text */
+    padding-right: 3px;
+
     line-height: 1.6; /* Makes the text more readable */
     color: #333; /* Darker text color for contrast */
 }
@@ -228,7 +230,6 @@ body {
         <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-center">
             <img src="{% static '/images/about.png' %}" alt="About Us" class="img-fluid about-us-image mb-3">
             <img src="{% static '/images/about2.png' %}" alt="About Us" class="img-fluid about-us-image mb-3">
-            <img src="{% static '/images/about3.png' %}" alt="About Us" class="img-fluid about-us-image">
         </div>
 
         <!-- Text content on the right side -->
