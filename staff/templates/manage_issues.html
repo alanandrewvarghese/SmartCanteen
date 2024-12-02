@@ -65,6 +65,7 @@
                     <th>Customer Name</th>
                     <th>Complaint</th>
                     <th>Date Submitted</th>
+                    <th>Response Message</th>
                     {% comment %} <th>Status</th> {% endcomment %}
                 </tr>
             </thead>
@@ -75,6 +76,23 @@
                     <td>{{complaint.user.name}}</td>
                     <td>{{complaint.complaint}}</td>
                     <td>{{complaint.created_at}}</td>
+                    <td>
+                        <form action="{% url 'response_message' complaint.id %}" method="post" class="mb-3">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <textarea 
+                                    name="response_message" 
+                                    id="response_message" 
+                                    cols="50" 
+                                    rows="5" 
+                                    class="form-control" 
+                                    placeholder="Type your response here..."></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center">
+                            <button type="submit" class="btn btn-primary">Send Response</button>
+                            </div>
+                        </form>
+                    </td>
                     {% comment %} <td><span class="badge bg-warning">Pending</span></td> {% endcomment %}
                 </tr>
                 {% endfor %}

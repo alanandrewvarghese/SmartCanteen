@@ -18,5 +18,5 @@ urlpatterns = [
     path('api/chart_data/',views.chart_data,name='chart_data'),
     path('customer/delete/<int:customer_id>/', views.remove_customers, name='remove_customers'),
     path('customer/update_status/<int:customer_id>/', views.update_customer_status, name='update_customer_status'),
-
+    path('complaints/response_message/<int:complaint_id>/', views.response_message, name='response_message'),
 ]

@@ -9,6 +9,8 @@ from common.models import Item, Order, OrderItem,Customer,Staff,Complaint,Notifi
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.generic import ListView
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -215,8 +217,32 @@ def manage_accounts(request):
 
 @staff_required
 def manage_issues(request):
-    complaints=Complaint.objects.all()
+    complaints=Complaint.objects.filter(status="pending")
     context={
         "complaints": complaints
     }
     return render(request, 'manage_issues.html', context)
+
+
+@staff_required
+def response_message(request, complaint_id):
+    complaint = get_object_or_404(Complaint, pk=complaint_id)
+    
+    if request.method == 'POST':
+        message = request.POST.get('response_message', '').strip()
+        
+        if message: 
+            complaint.response = message
+            complaint.status = 'responded' 
+            complaint.save()
+            
+            Notification.objects.create(
+                user=complaint.user.user,
+                message=f"Your complaint [{complaint.complaint}] has been responded to: {message}",
+            )
+            
+            messages.success(request, "Response sent successfully and notification created.")
+        else:
+            messages.error(request, "Response message cannot be empty.")
+    
+    return redirect('manage_issues')
