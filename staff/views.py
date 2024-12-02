@@ -5,9 +5,10 @@ from django.db.models import Sum, Count, F
 from django.db.models.functions import Coalesce
 from staff.forms import ItemCreationForm, StaffCreationForm, StockUpdationForm
 from common.forms import CreateUserForm
-from common.models import Item, Order, OrderItem,Customer,Staff,Complaint,Notification
+from common.models import Item, Order, OrderItem,Customer,Staff,Complaint,Notification,KhattaBook
 from django.http import JsonResponse
 from django.utils import timezone
+from django.views.generic import ListView
 
 # Create your views here.
 
@@ -201,7 +202,12 @@ def update_customer_status(request,customer_id):
 
 @staff_required
 def manage_khattabook(request):
-    return render(request, 'manage_khattabook.html')
+    khattabooks = KhattaBook.objects.select_related('user').all()
+    
+    # Pass the data to the template
+    return render(request, 'manage_khattabook.html', {
+        'khattabooks': khattabooks,
+    })
 
 @staff_required
 def manage_accounts(request):
@@ -214,5 +220,3 @@ def manage_issues(request):
         "complaints": complaints
     }
     return render(request, 'manage_issues.html', context)
-
-
