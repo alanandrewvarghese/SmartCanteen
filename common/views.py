@@ -15,41 +15,51 @@ from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import get_object_or_404
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import login
+from django.core.mail import EmailMultiAlternatives
 
 # Create your views here.
 User = get_user_model()
 
 def password_reset_request(request):
-    print("Request method:", request.method)  # Debugging line to check the request method
+    print("Request method:", request.method) 
     if request.method == "POST":
         form = PasswordResetRequestForm(request.POST)
-        print("Form is valid:", form.is_valid())  # Debugging line to check if form is valid
+        print("Form is valid:", form.is_valid())
         if form.is_valid():
             email = form.cleaned_data["email"]
-            print("Email entered:", email)  # Debugging line to check the email entered
+            print("Email entered:", email)  
             associated_users = User.objects.filter(email=email)
-            print("Number of associated users found:", associated_users.count())  # Debugging line to check the number of associated users
+            print("Number of associated users found:", associated_users.count())  
             if associated_users.exists():
                 for user in associated_users:
-                    print(f"Processing user: {user.username}")  # Debugging line to check which user is being processed
-                    # Generate a one-time-use token and email the user
+                    print(f"Processing user: {user.username}")
+
                     token = default_token_generator.make_token(user)
-                    print("Generated token:", token)  # Debugging line to check the token value
+                    print("Generated token:", token)  
                     uid = urlsafe_base64_encode(force_bytes(user.pk))
-                    print("Encoded UID:", uid)  # Debugging line to check the encoded user ID
+                    print("Encoded UID:", uid)  
                     password_reset_url = request.build_absolute_uri(
                         f"/reset/{uid}/{token}/"
                     )
-                    print("Password reset URL:", password_reset_url)  # Debugging line to check the URL
-                    # Email template
+                    print("Password reset URL:", password_reset_url)  
+
                     email_subject = "Password Reset Requested"
                     email_body = render_to_string("password_reset_email.html", {
                         "password_reset_url": password_reset_url,
                         "user": user,
                     })
-                    print("Email body rendered")  # Debugging line to confirm email body rendering
-                    send_mail(email_subject, email_body, "smartcanteen@gmail.com", [email], fail_silently=False,)
-                    print(f"Password reset email sent to {email}")  # Debugging line to confirm email sending
+                    text_content = "You requested a password reset. Visit the following link: {}".format(password_reset_url)
+
+                    email_message = EmailMultiAlternatives(
+                        email_subject, text_content, "smartcanteen@gmail.com", [email]
+                    )
+                    email_message.attach_alternative(email_body, "text/html")
+                    email_message.send()
+                    print(f"HTML Password reset email sent to {email}")
+
+                    # print("Email body rendered")  # Debugging line to confirm email body rendering
+                    # send_mail(email_subject, email_body, "smartcanteen@gmail.com", [email], fail_silently=False,)
+                    # print(f"Password reset email sent to {email}")  # Debugging line to confirm email sending
                 return redirect('app_login')
             else:
                 print(f"No users found with email {email}")  # Debugging line if no users are found

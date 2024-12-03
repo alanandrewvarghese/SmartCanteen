@@ -48,7 +48,7 @@ def view_cart(request):
     user=request.user
     staff=Staff.objects.all()
     khattabook = KhattaBook.objects.filter(user=customer)
-    total_due = khattabook.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
+    total_due = khattabook.filter(user=customer,status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
 
     total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
     if (total_due >= 3000 and customer.is_active):
