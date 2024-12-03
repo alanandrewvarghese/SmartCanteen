@@ -45,12 +45,10 @@ def customer_dashboard(request):
 @customer_required
 def view_cart(request):
     customer = request.user.customer
-    user=request.user
     staff=Staff.objects.all()
     khattabook = KhattaBook.objects.filter(user=customer)
     total_due = khattabook.filter(user=customer,status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
 
-    total_due = KhattaBook.objects.filter(status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
     if (total_due >= 3000 and customer.is_active):
         for staff_member in staff:
             Notification.objects.create(
