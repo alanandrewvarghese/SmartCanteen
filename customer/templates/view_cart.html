@@ -89,6 +89,8 @@
                 <H4>Your Cart is Empty</H4>
             {% endif %}
 
+            
+
         </div>
 
 
@@ -102,6 +104,16 @@
                     <button class="btn btn-secondary w-100">Place Order</button>
                     <br>
                     <p>Your account has been disabled!</p>
+                    {% endif %}
+                    {% if messages %}
+                        <div class="messages">
+                            <br>
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
             </div>

@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .forms import ComplaintForm
 from customer.recommendation_system import generate_recommendations
 from django.db.models import Sum
+from customer.helper import send_khatta_due_email
 
 # Create your views here.
 
@@ -50,8 +51,7 @@ def view_cart(request):
     total_due = khattabook.filter(user=customer,status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
     print(total_due)
 
-    if (total_due >= 3000 and customer.is_active):
-        print("hoi")
+    if (total_due >= 3100 and customer.is_active):
         for staff_member in staff:
             Notification.objects.create(
                 user=staff_member.user,
@@ -149,6 +149,7 @@ def view_orders(request):
 
 @customer_required
 def place_order(request):
+    messages.get_messages(request).used = True
     customer = request.user.customer
 
     cart = Cart.objects.filter(customer=customer).first()
@@ -160,42 +161,66 @@ def place_order(request):
     is_active=customer.is_active
 
     if is_active:
-        try:
-            order = Order.objects.create(customer=customer)
 
-            order_items = [
-                OrderItem(
-                    order=order,
-                    item=cart_item.item,
-                    quantity=cart_item.quantity
-                ) for cart_item in cart.cart_items.all()
-            ]
-            OrderItem.objects.bulk_create(order_items)
+        cart_amount = sum(
+            cart_item.quantity * cart_item.item.price 
+            for cart_item in cart.cart_items.all()
+        )
 
-            total_amount = sum(
-                order_item.quantity * order_item.item.price 
-                for order_item in order.items.all()
-            )
+        print(f'Total amount from cart: {cart_amount}')
 
-            order.total_amount = total_amount
-            order.save()
+        khattabook = KhattaBook.objects.filter(user=customer)
+        total_due = khattabook.filter(user=customer,status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
 
-            khattabook = KhattaBook.objects.create(
-                user=customer,
-                pending_payment = total_amount,
-                status = "Unpaid",
-                order = order
-            )
-            khattabook.save()
-
-            cart.cart_items.all().delete()
-
-            messages.success(request, 'Your order has been placed successfully!')
-            return redirect('view_orders')  
-        except Exception as e:
-            print(f"Error placing order: {str(e)}")
-            messages.error(request, 'An error occurred while placing your order. Please try again.')
+        if(cart_amount+total_due>=3200):
+            print("Amount exceeded")
+            message="Amount cannot exceed security limits!"
+            messages.warning(request,message)
             return redirect('view_cart')
+            
+        else:
+            try:
+                order = Order.objects.create(customer=customer)
+
+                order_items = [
+                    OrderItem(
+                        order=order,
+                        item=cart_item.item,
+                        quantity=cart_item.quantity
+                    ) for cart_item in cart.cart_items.all()
+                ]
+                OrderItem.objects.bulk_create(order_items)
+
+                total_amount = sum(
+                    order_item.quantity * order_item.item.price 
+                    for order_item in order.items.all()
+                )
+
+                order.total_amount = total_amount
+                order.save()
+
+                khattabook = KhattaBook.objects.create(
+                    user=customer,
+                    pending_payment = total_amount,
+                    status = "Unpaid",
+                    order = order
+                )
+                khattabook.save()
+
+                cart.cart_items.all().delete()
+
+                khattabook = KhattaBook.objects.filter(user=customer)
+                total_due = khattabook.filter(user=customer,status='Unpaid').aggregate(total=Sum('pending_payment'))['total'] or 0
+                
+                if(total_due>=3000 and total_due<3100):
+                    customer_email=customer.user.email
+                    send_khatta_due_email(total_due,customer_email)
+
+                return redirect('view_orders')  
+            except Exception as e:
+                print(f"Error placing order: {str(e)}")
+                messages.error(request, 'An error occurred while placing your order. Please try again.')
+                return redirect('view_cart')
     else:
         return redirect('view_cart')
 
