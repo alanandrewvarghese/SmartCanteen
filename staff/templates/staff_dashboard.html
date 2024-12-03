@@ -136,19 +136,19 @@ body {
 
         <!-- Charts -->
         <div class="row">
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6 mx-auto max-vh-25 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Orders Over Time</h5>
-                        <canvas id="ordersChart" width="400" height="200"></canvas>
+                        <h5 class="card-title">Most Popular Menu Items</h5>
+                        <canvas id="menuItemsChartM"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6 mx-auto max-vh-25 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Popular Menu Items</h5>
-                        <canvas id="menuItemsChart"></canvas>
+                        <h5 class="card-title">Least Popular Menu Items</h5>
+                        <canvas id="menuItemsChartL"></canvas>
                     </div>
                 </div>
             </div>
@@ -201,17 +201,31 @@ $(document).ready(function() {
         url: '/api/chart_data/',  // The URL of the Django view
         method: 'GET',
         success: function(response) {
-            // Create the chart with the dynamic data
-            var ordersCtx = document.getElementById('ordersChart').getContext('2d');
-            var ordersChart = new Chart(ordersCtx, {
-                type: 'line',
+
+            //Most Popular Menu Items Chart
+            var menuItemsCtx = document.getElementById('menuItemsChartM').getContext('2d');
+            var menuItemsChart = new Chart(menuItemsCtx, {
+                type: 'bar',
                 data: {
-                    labels: response.labels_lc,  // Use the labels from the response
+                    labels: response.labels_mp,
                     datasets: [{
                         label: 'Orders',
-                        data: response.data_lc,  // Use the data from the response
-                        borderColor: 'rgb(75, 192, 192)',
-                        tension: 0.1
+                        data: response.data_mp,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
                     }]
                 },
                 options: {
@@ -224,15 +238,15 @@ $(document).ready(function() {
                 }
             });
 
-            // Popular Menu Items Chart
-            var menuItemsCtx = document.getElementById('menuItemsChart').getContext('2d');
+            //Least Popular Menu Items Chart
+            var menuItemsCtx = document.getElementById('menuItemsChartL').getContext('2d');
             var menuItemsChart = new Chart(menuItemsCtx, {
                 type: 'bar',
                 data: {
-                    labels: response.labels_cc,
+                    labels: response.labels_lp,
                     datasets: [{
                         label: 'Orders',
-                        data: response.data_cc,
+                        data: response.data_lp,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -265,7 +279,5 @@ $(document).ready(function() {
         }
     });
 });
-
-{% comment %}  {% endcomment %}
 
 {% endblock script %}

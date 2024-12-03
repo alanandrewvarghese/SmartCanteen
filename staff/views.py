@@ -33,18 +33,33 @@ def staff_dashboard(request):
     
     return render(request, 'staff_dashboard.html', context)
 
+
 def chart_data(request):
+    resultMostPopular = (
+    OrderItem.objects.values('item__item_name')  
+    .annotate(total_quantity=Sum('quantity'))   
+    .order_by('-total_quantity')                 
+    )[:5]
 
-    labels_lc = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    current_year = timezone.now().year
-    data_lc=[0, 0, 0, 0, 0, 0, 0, 0, 378, 122, 14, 0]
-
-    labels_cc = list(Item.objects.values_list('item_name',flat=True))
+    resultLeastPopular = (
+    OrderItem.objects.values('item__item_name')  
+    .annotate(total_quantity=Sum('quantity'))   
+    .order_by('total_quantity')                 
+    )[:5]  
     
-    data_cc = [18, 30, 69, 76, 11, 90, 93, 95, 66, 73, 5, 48, 82, 66, 64, 72, 80, 45, 54, 45, 54, 35, 83, 73, 17, 37, 73, 87, 70, 62]
+    item_namesMP = [entry['item__item_name'] for entry in resultMostPopular]
+    quantitiesMP = [entry['total_quantity'] for entry in resultMostPopular]
+    
+    item_namesLP = [entry['item__item_name'] for entry in resultLeastPopular]
+    quantitiesLP = [entry['total_quantity'] for entry in resultLeastPopular]
 
+    labels_mp = item_namesMP
+    data_mp = quantitiesMP
 
-    return JsonResponse({'labels_lc': labels_lc,'data_lc':data_lc,'labels_cc':labels_cc,'data_cc':data_cc})
+    labels_lp = item_namesLP
+    data_lp = quantitiesLP
+
+    return JsonResponse({'labels_mp': labels_mp,'data_mp':data_mp,'labels_lp':labels_lp,'data_lp':data_lp})
 
 
 @staff_required
@@ -63,6 +78,7 @@ def manage_staff(request):
         'staff_details': staff_details
     }
     return render(request, 'manage_staff.html', context)
+
 
 @staff_required
 def add_item(request):
@@ -131,6 +147,7 @@ def add_staff(request):
     }
     return render(request, 'add_staff.html', context)
 
+
 @staff_required
 def update_stock(request):
     form=StockUpdationForm()
@@ -155,6 +172,7 @@ def update_stock(request):
     }
     return render(request, 'update_stock.html', context)
 
+
 @staff_required
 def staff_notification(request):
     staff_notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
@@ -172,6 +190,7 @@ def manage_customers(request):
     }
     return render(request, 'manage_customers.html', context)
 
+
 @staff_required
 def remove_customers(request,customer_id):
     try:
@@ -181,6 +200,7 @@ def remove_customers(request,customer_id):
         print(f"Error: {e}")
     
     return redirect(manage_customers)
+
 
 @staff_required
 def update_customer_status(request,customer_id):
@@ -197,6 +217,7 @@ def update_customer_status(request,customer_id):
     
     return redirect(manage_customers)
 
+
 @staff_required
 def manage_khattabook(request):
     khattabooks = KhattaBook.objects.select_related('user').all()
@@ -204,6 +225,7 @@ def manage_khattabook(request):
     return render(request, 'manage_khattabook.html', {
         'khattabooks': khattabooks,
     })
+
 
 @staff_required
 def manage_accounts(request):
@@ -215,8 +237,8 @@ def manage_accounts(request):
         'orders': orders
     }
 
-
     return render(request, 'manage_accounts.html', context)
+
 
 @staff_required
 def manage_issues(request):
