@@ -266,8 +266,7 @@ def response_message(request, complaint_id):
                 message=f"Your complaint [{complaint.complaint}] has been responded to: {message}",
             )
             
-            messages.success(request, "Response sent successfully and notification created.")
         else:
-            messages.error(request, "Response message cannot be empty.")
+            print("Response message cannot be empty.")
     
     return redirect('manage_issues')

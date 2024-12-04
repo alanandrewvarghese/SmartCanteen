@@ -13,6 +13,7 @@ from customer.helper import send_khatta_due_email
 
 @customer_required
 def customer_dashboard(request):
+    messages.get_messages(request).used = True
     items_in_stock = Item.objects.filter(quantity__gt=0)
     items_out_of_stock = Item.objects.filter(quantity__lt=1)
     bf = Item.objects.filter(category='BF',quantity__gt=0)
@@ -115,12 +116,12 @@ def delete_from_cart(request, item_id):
     try:
         item = CartItem.objects.get(item_id=item_id, cart=cart)
     except CartItem.DoesNotExist:
-        messages.error(request, 'Item not found in your cart.')
+        print('Item not found in your cart.')
         return redirect('view_cart')
     
     if request.method == 'POST':
         item.delete()
-        messages.success(request, f'The item "{item.item.item_name}" has been removed from your cart.')
+        print(f'The item "{item.item.item_name}" has been removed from your cart.')
         return redirect('view_cart')
 
 
@@ -235,7 +236,7 @@ def place_order(request):
                 return redirect('view_orders')  
             except Exception as e:
                 print(f"Error placing order: {str(e)}")
-                messages.error(request, 'An error occurred while placing your order. Please try again.')
+                # messages.error(request, 'An error occurred while placing your order. Please try again.')
                 return redirect('view_cart')
     else:
         return redirect('view_cart')
@@ -278,7 +279,7 @@ def raise_issue(request):
             complaint.user = request.user.customer
             complaint.save()
 
-            messages.success(request, 'Your complaint has been submitted!')
+            # messages.success(request, 'Your complaint has been submitted!')
             return redirect('customer_dashboard')
     else:
         form = ComplaintForm(initial=initial_data)

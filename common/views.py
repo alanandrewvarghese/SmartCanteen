@@ -151,9 +151,9 @@ def app_login(request):
                 login(request, user)
                 return handle_redirect(user)
             else:
-                messages.error(request, "Invalid username or password.")
+                print("Invalid username or password.")
         else:
-            messages.error(request, "Form Errors!")
+            print("Form Errors!")
 
     context={
         'loginform': loginform
