@@ -131,6 +131,7 @@ def customer_notifications(request):
         'notifications':user_notifications
     })
 
+
 @customer_required
 def view_orders(request):
     customer = request.user.customer
@@ -146,6 +147,7 @@ def view_orders(request):
         'orders': orders
     }
     return render(request, 'view_orders.html', context)
+
 
 @customer_required
 def place_order(request):
@@ -180,15 +182,29 @@ def place_order(request):
             
         else:
             try:
+                for cart_item in cart.cart_items.all():
+                    if cart_item.quantity > cart_item.item.quantity:
+                        messages.warning(
+                            request,
+                            f"Insufficient stock for {cart_item.item.item_name}. Only {cart_item.item.quantity} left."
+                        )
+                        return redirect('view_cart')
+                
                 order = Order.objects.create(customer=customer)
 
-                order_items = [
-                    OrderItem(
+                order_items = []
+                for cart_item in cart.cart_items.all():
+                    order_item = OrderItem(
                         order=order,
                         item=cart_item.item,
                         quantity=cart_item.quantity
-                    ) for cart_item in cart.cart_items.all()
-                ]
+                    )
+                    order_items.append(order_item)
+
+                    # Deduct stock
+                    cart_item.item.quantity -= cart_item.quantity
+                    cart_item.item.save()
+
                 OrderItem.objects.bulk_create(order_items)
 
                 total_amount = sum(
